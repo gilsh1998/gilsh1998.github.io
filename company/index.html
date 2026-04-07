@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gil's Company — AI-Powered Autonomous Trading</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; color: #1a1a1a; background: #fff; line-height: 1.6; }
+    a { color: #1a1a1a; text-decoration: none; }
+    a:hover { color: #555; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 56px 0; border-bottom: 1px solid #eee; }
+    section:last-of-type { border-bottom: none; }
+    h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 1px; }
+    h2::after { content: ''; display: block; width: 32px; height: 2px; background: #1a1a1a; margin-top: 8px; }
+
+    /* Nav */
+    .topnav { padding: 16px 0; border-bottom: 1px solid #eee; }
+    .topnav .container { display: flex; justify-content: space-between; align-items: center; }
+    .topnav a { font-size: 0.85rem; color: #888; transition: color 0.2s; }
+    .topnav a:hover { color: #1a1a1a; }
+    .topnav .brand { font-weight: 600; color: #1a1a1a; font-size: 0.95rem; }
+
+    /* Hero */
+    .hero { padding: 72px 0 56px; text-align: center; border-bottom: 1px solid #eee; }
+    .hero h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 12px; }
+    .hero .tagline { font-size: 1.15rem; color: #666; max-width: 560px; margin: 0 auto 24px; }
+    .hero .stats { display: flex; justify-content: center; gap: 40px; margin-top: 8px; }
+    .hero .stat { text-align: center; }
+    .hero .stat-num { font-size: 1.8rem; font-weight: 700; }
+    .hero .stat-label { font-size: 0.8rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* Trade Flow Animation */
+    .flow-section { background: #fafafa; }
+    .flow-wrapper { position: relative; padding: 32px 0 16px; overflow-x: auto; }
+    .flow-steps { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: nowrap; min-width: fit-content; margin: 0 auto; }
+    .flow-step { display: flex; flex-direction: column; align-items: center; text-align: center; min-width: 100px; position: relative; }
+    .flow-node { width: 64px; height: 64px; border-radius: 50%; border: 2px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; color: #999; background: #fff; transition: all 0.5s ease; position: relative; z-index: 1; }
+    .flow-node.active { border-color: #1a1a1a; color: #1a1a1a; box-shadow: 0 0 0 4px rgba(26,26,26,0.08); }
+    .flow-node.done { border-color: #1a1a1a; color: #fff; background: #1a1a1a; }
+    .flow-label { font-size: 0.75rem; color: #999; margin-top: 8px; transition: color 0.5s; }
+    .flow-label.active { color: #1a1a1a; font-weight: 500; }
+    .flow-arrow { width: 40px; display: flex; align-items: center; justify-content: center; color: #ddd; font-size: 1.2rem; transition: color 0.5s; margin-bottom: 24px; }
+    .flow-arrow.active { color: #1a1a1a; }
+    .flow-message { text-align: center; margin-top: 24px; min-height: 48px; }
+    .flow-message p { font-size: 0.9rem; color: #666; opacity: 0; transition: opacity 0.4s; }
+    .flow-message p.visible { opacity: 1; }
+    .flow-controls { text-align: center; margin-top: 16px; }
+    .flow-controls button { font-family: 'Inter', sans-serif; font-size: 0.8rem; padding: 8px 20px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; color: #555; transition: all 0.2s; }
+    .flow-controls button:hover { border-color: #999; color: #1a1a1a; }
+
+    /* Departments */
+    .dept { margin-bottom: 40px; }
+    .dept:last-child { margin-bottom: 0; }
+    .dept-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .dept-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dept-header h3 { font-size: 1.05rem; font-weight: 600; }
+    .dept-header span { font-size: 0.85rem; color: #888; }
+
+    /* Agent Cards */
+    .agents-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .agent-card { border: 1px solid #eee; border-radius: 10px; padding: 20px; transition: box-shadow 0.2s; }
+    .agent-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .agent-card .agent-name { font-size: 1rem; font-weight: 600; margin-bottom: 2px; }
+    .agent-card .agent-role { font-size: 0.8rem; color: #888; margin-bottom: 10px; }
+    .agent-card .agent-model { font-size: 0.7rem; color: #aaa; background: #f7f7f7; display: inline-block; padding: 2px 8px; border-radius: 3px; margin-bottom: 10px; }
+    .agent-card p { font-size: 0.85rem; color: #555; line-height: 1.5; }
+
+    /* How it works */
+    .how-list { counter-reset: how; }
+    .how-item { display: flex; gap: 16px; margin-bottom: 24px; }
+    .how-item:last-child { margin-bottom: 0; }
+    .how-num { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600; color: #888; }
+    .how-text h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 2px; }
+    .how-text p { font-size: 0.9rem; color: #555; }
+
+    /* Tech stack */
+    .tech-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tech-badge { font-size: 0.8rem; padding: 6px 14px; background: #f5f5f5; border-radius: 6px; color: #444; font-weight: 500; }
+
+    /* Footer */
+    .footer { text-align: center; padding: 40px 0; }
+    .footer a { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: #555; border: 1px solid #ddd; padding: 10px 24px; border-radius: 6px; transition: all 0.2s; }
+    .footer a:hover { border-color: #999; color: #1a1a1a; }
+
+    @media (max-width: 600px) {
+      .hero { padding: 48px 0 40px; }
+      .hero h1 { font-size: 1.8rem; }
+      .hero .stats { gap: 24px; }
+      .hero .stat-num { font-size: 1.4rem; }
+      .flow-steps { justify-content: flex-start; padding: 0 16px; }
+      .flow-step { min-width: 80px; }
+      .flow-node { width: 52px; height: 52px; font-size: 0.6rem; }
+      .flow-arrow { width: 24px; font-size: 1rem; }
+      .agents-grid { grid-template-columns: 1fr; }
+      section { padding: 40px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <nav class="topnav">
+    <div class="container">
+      <span class="brand">Gil's Company</span>
+      <a href="/">← Back to Portfolio</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container">
+      <h1>Gil's Company</h1>
+      <p class="tagline">An autonomous AI trading company — 9 agents across 3 departments that analyze markets, manage risk, and execute trades without human intervention.</p>
+      <div class="stats">
+        <div class="stat"><div class="stat-num">9</div><div class="stat-label">AI Agents</div></div>
+        <div class="stat"><div class="stat-num">3</div><div class="stat-label">Departments</div></div>
+        <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Autonomous</div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Live Trade Flow Animation -->
+  <section class="flow-section">
+    <div class="container">
+      <h2>Live Trade Flow</h2>
+      <p style="color:#666; font-size:0.9rem; margin-bottom:24px;">Watch a trade signal move through the agent chain of command — from detection to execution.</p>
+      <div class="flow-wrapper">
+        <div class="flow-steps">
+          <div class="flow-step" data-step="0">
+            <div class="flow-node" id="fn-radar">RADAR</div>
+            <div class="flow-label">Detects Signal</div>
+          </div>
+          <div class="flow-arrow" id="fa-0">→</div>
+          <div class="flow-step" data-step="1">
+            <div class="flow-node" id="fn-oracle">ORACLE</div>
+            <div class="flow-label">Analyzes</div>
+          </div>
+          <div class="flow-arrow" id="fa-1">→</div>
+          <div class="flow-step" data-step="2">
+            <div class="flow-node" id="fn-apex">APEX</div>
+            <div class="flow-label">Decides</div>
+          </div>
+          <div class="flow-arrow" id="fa-2">→</div>
+          <div class="flow-step" data-step="3">
+            <div class="flow-node" id="fn-shield">SHIELD</div>
+            <div class="flow-label">Risk Check</div>
+          </div>
+          <div class="flow-arrow" id="fa-3">→</div>
+          <div class="flow-step" data-step="4">
+            <div class="flow-node" id="fn-broker">BROKER</div>
+            <div class="flow-label">Executes</div>
+          </div>
+        </div>
+      </div>
+      <div class="flow-message">
+        <p id="flow-msg">Press play to watch a trade flow through the system.</p>
+      </div>
+      <div class="flow-controls">
+        <button id="flow-btn" onclick="startFlow()">▶ Play Trade Flow</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section>
+    <div class="container">
+      <h2>How It Works</h2>
+      <div class="how-list">
+        <div class="how-item">
+          <div class="how-num">1</div>
+          <div class="how-text">
+            <h4>Intelligence Gathering</h4>
+            <p>RADAR scans news, sentiment, and SEC filings every 15 minutes. QUANT runs technical analysis — SMA 150 crossovers, RSI, volume patterns. Both report to ORACLE.</p>
+          </div>
+        </div>
+        <div class="how-item">
+          <div class="how-num">2</div>
+          <div class="how-text">
+            <h4>Decision Making</h4>
+            <p>ORACLE synthesizes intelligence into actionable briefings and sends them to APEX. APEX reviews past lessons for the ticker, evaluates the opportunity, and decides whether to trade.</p>
+          </div>
+        </div>
+        <div class="how-item">
+          <div class="how-num">3</div>
+          <div class="how-text">
+            <h4>Risk Assessment</h4>
+            <p>Every trade must pass through SHIELD — the risk manager with veto power. SHIELD checks stop-losses, position sizing, cash reserves, portfolio concentration, and scores risk 0–100.</p>
+          </div>
+        </div>
+        <div class="how-item">
+          <div class="how-num">4</div>
+          <div class="how-text">
+            <h4>Execution & Monitoring</h4>
+            <p>BROKER executes approved trades with full validation (7 checks). PULSE monitors system health 24/7, auto-restarts crashed agents, and MIKE escalates critical issues via Telegram.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Departments & Agents -->
+  <section>
+    <div class="container">
+      <h2>The Team</h2>
+
+      <!-- Intelligence -->
+      <div class="dept">
+        <div class="dept-header">
+          <div class="dept-dot" style="background:#4a90d9;"></div>
+          <h3>Intelligence Department</h3>
+          <span>— Market analysis & data</span>
+        </div>
+        <div class="agents-grid">
+          <div class="agent-card">
+            <div class="agent-name">ORACLE</div>
+            <div class="agent-role">Head of Intelligence</div>
+            <div class="agent-model">Claude Opus</div>
+            <p>Synthesizes all intelligence inputs into actionable briefings. Receives reports from RADAR and QUANT, identifies the strongest opportunities, and briefs APEX with clear recommendations.</p>
+          </div>
+          <div class="agent-card">
+            <div class="agent-name">RADAR</div>
+            <div class="agent-role">News & Sentiment Analyst</div>
+            <div class="agent-model">Claude Sonnet</div>
+            <p>Monitors Reuters RSS, SEC EDGAR 8-K filings, and Stocktwits sentiment in real-time. Flags breaking news, sentiment shifts, and unusual social activity. Reports to ORACLE.</p>
+          </div>
+          <div class="agent-card">
+            <div class="agent-name">QUANT</div>
+            <div class="agent-role">Technical Analyst</div>
+            <div class="agent-model">Claude Sonnet</div>
+            <p>Runs technical analysis via Yahoo Finance — SMA 20/50/150 crossovers, RSI readings, ATR for volatility, and volume confirmation. The numbers behind every trade decision.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trading -->
+      <div class="dept">
+        <div class="dept-header">
+          <div class="dept-dot" style="background:#2ecc71;"></div>
+          <h3>Trading Department</h3>
+          <span>— Decisions, risk & execution</span>
+        </div>
+        <div class="agents-grid">
+          <div class="agent-card">
+            <div class="agent-name">APEX</div>
+            <div class="agent-role">Head of Trading</div>
+            <div class="agent-model">Claude Opus</div>
+            <p>The decision-maker. Receives intelligence briefings from ORACLE, reviews past lessons for each ticker, and decides whether to buy or sell. Every order includes a technical reason and must pass SHIELD's approval.</p>
+          </div>
+          <div class="agent-card">
+            <div class="agent-name">SHIELD</div>
+            <div class="agent-role">Risk Manager</div>
+            <div class="agent-model">Claude Opus</div>
+            <p>Has absolute veto power over every trade. Validates stop-losses (-7%), position sizing ($5K–$10K), cash reserves ($20K minimum), and portfolio concentration. Scores risk 0–100.</p>
+          </div>
+          <div class="agent-card">
+            <div class="agent-name">BROKER</div>
+            <div class="agent-role">Trade Executor</div>
+            <div class="agent-model">Claude Sonnet</div>
+            <p>Executes SHIELD-approved trades with 7 mandatory validation checks: trading hours, reason quality, trade size, position limits, cash reserve, position count, and SHIELD approval.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Operations -->
+      <div class="dept">
+        <div class="dept-header">
+          <div class="dept-dot" style="background:#e67e22;"></div>
+          <h3>Operations Department</h3>
+          <span>— Monitoring & coordination</span>
+        </div>
+        <div class="agents-grid">
+          <div class="agent-card">
+            <div class="agent-name">MIKE</div>
+            <div class="agent-role">Head of Operations</div>
+            <div class="agent-model">Claude Sonnet</div>
+            <p>The operational backbone. Oversees system health, coordinates inter-agent communication, and escalates critical issues directly to Gil via Telegram. Manages PULSE and NOVA.</p>
+          </div>
+          <div class="agent-card">
+            <div class="agent-name">PULSE</div>
+            <div class="agent-role">System Monitor</div>
+            <div class="agent-model">Claude Sonnet</div>
+            <p>24/7 health monitoring. Tracks agent status, detects failures, auto-restarts crashed agents (with 3-strike limit), and reports system metrics to MIKE.</p>
+          </div>
+          <div class="agent-card">
+            <div class="agent-name">NOVA</div>
+            <div class="agent-role">Marketing (Planned v2)</div>
+            <div class="agent-model">Claude Sonnet</div>
+            <p>Future agent for content generation — market insights, trade summaries, and public-facing reports. Planned for version 2 of the platform.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section>
+    <div class="container">
+      <h2>Tech Stack</h2>
+      <div class="tech-grid">
+        <span class="tech-badge">TypeScript (Strict)</span>
+        <span class="tech-badge">Node.js 20+</span>
+        <span class="tech-badge">Claude AI (Opus / Sonnet / Haiku)</span>
+        <span class="tech-badge">SQLite</span>
+        <span class="tech-badge">Telegram Bot API</span>
+        <span class="tech-badge">Yahoo Finance</span>
+        <span class="tech-badge">Reuters RSS</span>
+        <span class="tech-badge">SEC EDGAR</span>
+        <span class="tech-badge">Stocktwits</span>
+        <span class="tech-badge">Vitest</span>
+        <span class="tech-badge">ESLint + Prettier</span>
+        <span class="tech-badge">pnpm</span>
+        <span class="tech-badge">GitHub Actions</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div class="footer">
+    <a href="/">← Back to Gil Shavit's Portfolio</a>
+  </div>
+
+  <!-- Trade Flow Animation Script -->
+  <script>
+    var nodes = ['radar', 'oracle', 'apex', 'shield', 'broker'];
+    var arrows = [0, 1, 2, 3];
+    var messages = [
+      'RADAR detects AAPL touching the 150-day SMA with rising volume...',
+      'ORACLE analyzes the signal — RSI at 45, SMA alignment bullish, Stocktwits 68% bullish...',
+      'APEX reviews past AAPL lessons and decides: BUY 30 shares at $180.50...',
+      'SHIELD runs risk assessment — stop-loss set, cash reserve OK, risk score: 32/100. APPROVED.',
+      'BROKER validates 7 checks and executes: BUY 30 AAPL @ $180.50. Trade logged.'
+    ];
+    var running = false;
+
+    function resetFlow() {
+      nodes.forEach(function(n) {
+        var el = document.getElementById('fn-' + n);
+        el.classList.remove('active', 'done');
+        el.parentElement.querySelector('.flow-label').classList.remove('active');
+      });
+      arrows.forEach(function(i) {
+        document.getElementById('fa-' + i).classList.remove('active');
+      });
+      var msg = document.getElementById('flow-msg');
+      msg.classList.remove('visible');
+      msg.textContent = 'Press play to watch a trade flow through the system.';
+      msg.classList.add('visible');
+    }
+
+    function startFlow() {
+      if (running) return;
+      running = true;
+      var btn = document.getElementById('flow-btn');
+      btn.textContent = 'Running...';
+      btn.style.pointerEvents = 'none';
+      resetFlow();
+      var msg = document.getElementById('flow-msg');
+      msg.classList.remove('visible');
+
+      var step = 0;
+      function nextStep() {
+        if (step > 0) {
+          var prev = document.getElementById('fn-' + nodes[step - 1]);
+          prev.classList.remove('active');
+          prev.classList.add('done');
+        }
+        if (step > 0) {
+          document.getElementById('fa-' + (step - 1)).classList.add('active');
+        }
+        if (step < nodes.length) {
+          var node = document.getElementById('fn-' + nodes[step]);
+          node.classList.add('active');
+          node.parentElement.querySelector('.flow-label').classList.add('active');
+          msg.classList.remove('visible');
+          setTimeout(function() {
+            msg.textContent = messages[step];
+            msg.classList.add('visible');
+          }, 100);
+          step++;
+          setTimeout(nextStep, 2200);
+        } else {
+          btn.textContent = '↻ Replay';
+          btn.style.pointerEvents = 'auto';
+          running = false;
+        }
+      }
+      setTimeout(nextStep, 400);
+    }
+
+    // Auto-play when the flow section scrolls into view
+    var observer = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        setTimeout(startFlow, 600);
+        observer.disconnect();
+      }
+    }, { threshold: 0.5 });
+    observer.observe(document.querySelector('.flow-section'));
+  </script>
+
+</body>
+</html>
