@@ -160,7 +160,7 @@ ul { list-style: none; }
     display: flex;
     align-items: center;
     position: relative;
-    padding: 120px 0 80px;
+    padding: 120px 0 120px;
 }
 
 .hero-bg {

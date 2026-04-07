@@ -77,6 +77,18 @@
     .how-text h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 2px; }
     .how-text p { font-size: 0.9rem; color: #555; }
 
+    /* Roadmap */
+    .roadmap { display: flex; flex-direction: column; gap: 28px; }
+    .roadmap-group-title { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 12px; }
+    .roadmap-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+    .roadmap-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid #eee; border-radius: 8px; font-size: 0.85rem; color: #888; transition: all 0.2s; }
+    .roadmap-item:hover { border-color: #ccc; }
+    .roadmap-num { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; color: #aaa; }
+    .roadmap-item.done { color: #1a1a1a; border-color: #ddd; }
+    .roadmap-item.done .roadmap-num { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+    .roadmap-item.current { color: #1a1a1a; border-color: #1a1a1a; font-weight: 500; }
+    .roadmap-item.current .roadmap-num { border-color: #1a1a1a; color: #1a1a1a; font-weight: 700; }
+
     /* Tech stack */
     .tech-grid { display: flex; flex-wrap: wrap; gap: 8px; }
     .tech-badge { font-size: 0.8rem; padding: 6px 14px; background: #f5f5f5; border-radius: 6px; color: #444; font-weight: 500; }
@@ -292,6 +304,59 @@
             <p>Future agent for content generation — market insights, trade summaries, and public-facing reports. Planned for version 2 of the platform.</p>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Build Roadmap -->
+  <section>
+    <div class="container">
+      <h2>Build Roadmap</h2>
+      <p style="color:#666; font-size:0.9rem; margin-bottom:28px;">23 phases from zero to a fully autonomous AI trading company. Here's the journey.</p>
+      <div class="roadmap">
+        <div class="roadmap-group">
+          <div class="roadmap-group-title">Foundation</div>
+          <div class="roadmap-items">
+            <div class="roadmap-item done"><span class="roadmap-num">1</span><span>Discover the Company</span></div>
+            <div class="roadmap-item done"><span class="roadmap-num">2</span><span>Memory Layer (CLAUDE.md)</span></div>
+            <div class="roadmap-item done"><span class="roadmap-num">3</span><span>Skills Library</span></div>
+            <div class="roadmap-item done"><span class="roadmap-num">4</span><span>Hooks Layer</span></div>
+            <div class="roadmap-item done"><span class="roadmap-num">5</span><span>Subagents Team</span></div>
+            <div class="roadmap-item done"><span class="roadmap-num">6</span><span>MCP Integrations</span></div>
+            <div class="roadmap-item done"><span class="roadmap-num">7</span><span>Learning From Mistakes</span></div>
+            <div class="roadmap-item done"><span class="roadmap-num">8</span><span>Package for Team</span></div>
+            <div class="roadmap-item done"><span class="roadmap-num">9</span><span>Core Trading Infrastructure</span></div>
+          </div>
+        </div>
+        <div class="roadmap-group">
+          <div class="roadmap-group-title">Agent Build</div>
+          <div class="roadmap-items">
+            <div class="roadmap-item current"><span class="roadmap-num">10</span><span>RADAR — News & Sentiment</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">11</span><span>QUANT — Technical Analysis</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">12</span><span>ORACLE — Intelligence Chief</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">13</span><span>SHIELD — Risk Manager</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">14</span><span>BROKER — Trade Executor</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">15</span><span>APEX — Trading Chief</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">16</span><span>PULSE — System Monitor</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">17</span><span>MIKE — Operations Chief</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">18</span><span>NOVA — Marketing (v2)</span></div>
+          </div>
+        </div>
+        <div class="roadmap-group">
+          <div class="roadmap-group-title">Production</div>
+          <div class="roadmap-items">
+            <div class="roadmap-item"><span class="roadmap-num">19</span><span>Ongoing Maintenance</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">20</span><span>Professional Guardrails</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">21</span><span>Advanced Multi-Agent Patterns</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">22</span><span>Video-to-Action Pipeline</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">23</span><span>Operational Hygiene</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:20px; display:flex; gap:16px; font-size:0.8rem; color:#888;">
+        <span style="display:flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#1a1a1a;display:inline-block;"></span> Complete</span>
+        <span style="display:flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;border:2px solid #1a1a1a;display:inline-block;"></span> In Progress</span>
+        <span style="display:flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;border:2px solid #ddd;display:inline-block;"></span> Planned</span>
       </div>
     </div>
   </section>
