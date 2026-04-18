@@ -5,370 +5,1027 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gil's Company — AI-Powered Autonomous Trading</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    /* ─── Reset & Base ─────────────────────────────────────────── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; color: #1a1a1a; background: #fff; line-height: 1.6; }
-    a { color: #1a1a1a; text-decoration: none; }
-    a:hover { color: #555; }
-    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
-    section { padding: 56px 0; border-bottom: 1px solid #eee; }
-    section:last-of-type { border-bottom: none; }
-    h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 1px; }
-    h2::after { content: ''; display: block; width: 32px; height: 3px; background: #2563eb; margin-top: 8px; border-radius: 2px; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: #0f172a;
+      background: #ffffff;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    img { max-width: 100%; display: block; }
 
-    /* Nav */
-    .topnav { padding: 16px 0; border-bottom: 1px solid #eee; }
+    /* ─── Layout ───────────────────────────────────────────────── */
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 80px 0; }
+    section.alt { background: #f8fafc; }
+    .section-head { text-align: center; margin-bottom: 48px; }
+    .section-head .eyebrow {
+      font-size: 0.72rem; font-weight: 700; color: #2563eb;
+      text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;
+    }
+    .section-head h2 {
+      font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; color: #0f172a;
+    }
+    .section-head p {
+      max-width: 620px; margin: 14px auto 0; color: #64748b; font-size: 1rem;
+    }
+
+    /* ─── Nav ──────────────────────────────────────────────────── */
+    .topnav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid #e2e8f0;
+      padding: 14px 0;
+    }
     .topnav .container { display: flex; justify-content: space-between; align-items: center; }
-    .topnav a { font-size: 0.85rem; color: #888; transition: color 0.2s; }
-    .topnav a:hover { color: #1a1a1a; }
-    .topnav .brand { font-weight: 600; color: #2563eb; font-size: 0.95rem; }
+    .brand {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-weight: 700; color: #0f172a; font-size: 0.95rem;
+    }
+    .brand-logo {
+      width: 28px; height: 28px; border-radius: 7px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 800; font-size: 0.8rem;
+    }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { font-size: 0.88rem; color: #64748b; transition: color .15s; }
+    .nav-links a:hover { color: #0f172a; }
+    .nav-back {
+      font-size: 0.85rem; color: #64748b;
+      padding: 7px 14px; border: 1px solid #e2e8f0; border-radius: 8px;
+      transition: all .15s;
+    }
+    .nav-back:hover { background: #f1f5f9; color: #0f172a; }
 
-    /* Hero */
-    .hero { padding: 72px 0 56px; text-align: center; border-bottom: 1px solid #eee; }
-    .hero h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 12px; }
-    .hero .tagline { font-size: 1.15rem; color: #666; max-width: 560px; margin: 0 auto 24px; }
-    .hero .stats { display: flex; justify-content: center; gap: 40px; margin-top: 8px; }
-    .hero .stat { text-align: center; }
-    .hero .stat-num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
-    .hero .stat-label { font-size: 0.8rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+    /* ─── Hero ─────────────────────────────────────────────────── */
+    .hero { padding: 96px 0 64px; text-align: center; position: relative; overflow: hidden; }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 800px 400px at 50% 0%, rgba(37,99,235,0.06), transparent 70%);
+      pointer-events: none;
+    }
+    .hero .container { position: relative; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.72rem; font-weight: 600;
+      color: #16a34a; background: #ecfdf5;
+      border: 1px solid #a7f3d0; padding: 6px 14px;
+      border-radius: 999px; text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: 24px;
+    }
+    .pulse-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #16a34a;
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(22,163,74,0.5); }
+      50% { opacity: .5; transform: scale(.85); box-shadow: 0 0 0 6px rgba(22,163,74,0); }
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 800; letter-spacing: -1.5px;
+      color: #0f172a; line-height: 1.1; margin-bottom: 18px;
+    }
+    .hero h1 .accent { color: #2563eb; }
+    .hero .tagline {
+      font-size: 1.15rem; color: #475569;
+      max-width: 640px; margin: 0 auto 40px;
+    }
+    .hero-stats {
+      display: flex; justify-content: center; gap: 0; flex-wrap: wrap;
+      max-width: 640px; margin: 0 auto;
+      border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden;
+      background: #fff;
+    }
+    .hero-stat { flex: 1; min-width: 140px; padding: 24px 20px; text-align: center; }
+    .hero-stat + .hero-stat { border-left: 1px solid #e2e8f0; }
+    .hero-stat .num {
+      font-size: 1.9rem; font-weight: 800; color: #0f172a;
+      letter-spacing: -1px; line-height: 1;
+    }
+    .hero-stat .label {
+      font-size: 0.72rem; color: #94a3b8;
+      text-transform: uppercase; letter-spacing: 1.2px; margin-top: 6px;
+    }
 
-    /* Trade Flow Animation */
-    .flow-section { background: #fafafa; }
-    .flow-wrapper { position: relative; padding: 32px 0 16px; overflow-x: auto; }
-    .flow-steps { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: nowrap; min-width: fit-content; margin: 0 auto; }
-    .flow-step { display: flex; flex-direction: column; align-items: center; text-align: center; min-width: 100px; position: relative; }
-    .flow-node { width: 64px; height: 64px; border-radius: 50%; border: 2px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; color: #999; background: #fff; transition: all 0.5s ease; position: relative; z-index: 1; }
-    .flow-node.active { border-color: #2563eb; color: #2563eb; box-shadow: 0 0 0 4px rgba(37,99,235,0.1); }
-    .flow-node.done { border-color: #2563eb; color: #fff; background: #2563eb; }
-    .flow-label { font-size: 0.75rem; color: #999; margin-top: 8px; transition: color 0.5s; }
-    .flow-label.active { color: #2563eb; font-weight: 500; }
-    .flow-arrow { width: 40px; display: flex; align-items: center; justify-content: center; color: #ddd; font-size: 1.2rem; transition: color 0.5s; margin-bottom: 24px; }
-    .flow-arrow.active { color: #2563eb; }
-    .flow-message { text-align: center; margin-top: 24px; min-height: 48px; }
-    .flow-message p { font-size: 0.9rem; color: #666; opacity: 0; transition: opacity 0.4s; }
-    .flow-message p.visible { opacity: 1; }
-    .flow-controls { text-align: center; margin-top: 16px; }
-    .flow-controls button { font-family: 'Inter', sans-serif; font-size: 0.8rem; padding: 8px 20px; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; color: #555; transition: all 0.2s; }
-    .flow-controls button:hover { border-color: #999; color: #1a1a1a; }
+    /* ─── Performance Cards ────────────────────────────────────── */
+    .perf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .perf-card {
+      padding: 28px 24px; background: #fff;
+      border: 1px solid #e2e8f0; border-radius: 14px;
+      transition: all .2s ease;
+    }
+    .perf-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 20px rgba(15,23,42,0.04);
+      transform: translateY(-2px);
+    }
+    .perf-label {
+      font-size: 0.72rem; color: #94a3b8;
+      text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .perf-num {
+      font-size: 2rem; font-weight: 800;
+      color: #0f172a; letter-spacing: -0.8px; line-height: 1;
+    }
+    .perf-num.positive { color: #16a34a; }
+    .perf-num.negative { color: #dc2626; }
+    .perf-sub { font-size: 0.85rem; color: #64748b; margin-top: 8px; }
+    .perf-sub.positive { color: #16a34a; }
+    .perf-sub.negative { color: #dc2626; }
+    .perf-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 24px; font-size: 0.82rem; color: #94a3b8; flex-wrap: wrap; gap: 8px;
+    }
 
-    /* Departments */
-    .dept { margin-bottom: 40px; }
+    /* ─── Departments ──────────────────────────────────────────── */
+    .dept { margin-bottom: 56px; }
     .dept:last-child { margin-bottom: 0; }
-    .dept-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-    .dept-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .dept-header h3 { font-size: 1.05rem; font-weight: 600; }
-    .dept-header span { font-size: 0.85rem; color: #888; }
+    .dept-header {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
+      padding-bottom: 14px; border-bottom: 2px solid #f1f5f9;
+    }
+    .dept-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .dept-header h3 {
+      font-size: 1.15rem; font-weight: 700; color: #0f172a;
+    }
+    .dept-header .dept-sub {
+      font-size: 0.85rem; color: #94a3b8; margin-left: auto;
+    }
 
-    /* Agent Cards */
-    .agents-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-    .agent-card { border: 1px solid #eee; border-radius: 10px; padding: 20px; transition: box-shadow 0.2s; }
-    .agent-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-    .agent-card .agent-name { font-size: 1rem; font-weight: 600; margin-bottom: 2px; }
-    .agent-card .agent-role { font-size: 0.8rem; color: #888; margin-bottom: 10px; }
-    .agent-card .agent-model { font-size: 0.7rem; color: #2563eb; background: rgba(37,99,235,0.06); display: inline-block; padding: 2px 8px; border-radius: 3px; margin-bottom: 10px; }
-    .agent-card p { font-size: 0.85rem; color: #555; line-height: 1.5; }
+    /* ─── Agent Cards ──────────────────────────────────────────── */
+    .agents-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .agent-card {
+      background: #fff; border: 1px solid #e2e8f0; border-radius: 14px;
+      padding: 24px; cursor: pointer; transition: all .2s ease;
+      display: flex; flex-direction: column; gap: 4px;
+      position: relative; overflow: hidden;
+    }
+    .agent-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--dept-color, #2563eb);
+      opacity: 0; transition: opacity .2s;
+    }
+    .agent-card:hover {
+      border-color: var(--dept-color, #2563eb);
+      box-shadow: 0 10px 30px rgba(15,23,42,0.06);
+      transform: translateY(-3px);
+    }
+    .agent-card:hover::after { opacity: 1; }
+    .agent-card:hover .agent-more { color: var(--dept-color, #2563eb); }
+    .dept-intel { --dept-color: #2563eb; }
+    .dept-trading { --dept-color: #16a34a; }
+    .dept-ops { --dept-color: #ea580c; }
+    .agent-avatar {
+      width: 64px; height: 64px; border-radius: 14px;
+      object-fit: cover; background: #f1f5f9; margin-bottom: 14px;
+      border: 1px solid #e2e8f0;
+    }
+    .agent-name {
+      font-size: 1.05rem; font-weight: 700; color: #0f172a;
+      letter-spacing: 0.5px;
+    }
+    .agent-role {
+      font-size: 0.82rem; color: #64748b; margin-bottom: 12px;
+    }
+    .agent-model {
+      display: inline-block; font-size: 0.68rem;
+      padding: 3px 9px; border-radius: 4px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+    .agent-model.opus { color: #7c3aed; background: #f3e8ff; }
+    .agent-model.sonnet { color: #0369a1; background: #e0f2fe; }
+    .agent-desc {
+      font-size: 0.88rem; color: #475569; line-height: 1.55;
+      flex: 1;
+    }
+    .agent-more {
+      font-size: 0.78rem; font-weight: 600; color: #94a3b8;
+      margin-top: 16px; display: inline-flex; align-items: center; gap: 5px;
+      transition: color .15s;
+    }
+    .agent-more::after {
+      content: '→'; transition: transform .2s;
+    }
+    .agent-card:hover .agent-more::after { transform: translateX(3px); }
 
-    /* How it works */
-    .how-list { counter-reset: how; }
-    .how-item { display: flex; gap: 16px; margin-bottom: 24px; }
-    .how-item:last-child { margin-bottom: 0; }
-    .how-num { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #2563eb; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600; color: #2563eb; }
-    .how-text h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 2px; }
-    .how-text p { font-size: 0.9rem; color: #555; }
+    /* ─── Org Tree ────────────────────────────────────────────── */
+    .org-legend {
+      display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+      margin-bottom: 32px; font-size: 0.82rem; color: #64748b;
+    }
+    .legend-item { display: inline-flex; align-items: center; gap: 8px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
 
-    /* Roadmap */
-    .roadmap { display: flex; flex-direction: column; gap: 28px; }
-    .roadmap-group-title { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 12px; }
-    .roadmap-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
-    .roadmap-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid #eee; border-radius: 8px; font-size: 0.85rem; color: #888; transition: all 0.2s; }
-    .roadmap-item:hover { border-color: #ccc; }
-    .roadmap-num { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; color: #aaa; }
-    .roadmap-item.done { color: #1a1a1a; border-color: #ddd; }
-    .roadmap-item.done .roadmap-num { background: #2563eb; color: #fff; border-color: #2563eb; }
+    .org-tree {
+      overflow-x: auto;
+      padding: 10px 20px 20px;
+      margin: 0 -20px;
+    }
+    .org-tree ul {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; justify-content: center;
+      position: relative;
+    }
+    .org-tree > ul { min-width: fit-content; }
+    .org-tree li {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 28px 8px 0; position: relative;
+    }
+    /* CEO's root li has no connectors above */
+    .tree-root > .tree-ceo-li { padding-top: 0; }
+    .tree-root > .tree-ceo-li::before,
+    .tree-root > .tree-ceo-li::after { display: none; }
 
-    /* Tech stack */
-    .tech-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-    .tech-badge { font-size: 0.8rem; padding: 6px 14px; background: rgba(37,99,235,0.05); border-radius: 6px; color: #2563eb; font-weight: 500; }
+    /* Sibling connectors: horizontal half-bars on every child li */
+    .org-tree li::before,
+    .org-tree li::after {
+      content: ''; position: absolute; top: 0;
+      height: 28px; width: 50%;
+      border-top: 2px solid #e2e8f0;
+    }
+    .org-tree li::before { right: 50%; }
+    .org-tree li::after { left: 50%; border-left: 2px solid #e2e8f0; }
 
-    /* Footer */
-    .footer { text-align: center; padding: 40px 0; }
-    .footer a { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: #555; border: 1px solid #ddd; padding: 10px 24px; border-radius: 6px; transition: all 0.2s; }
-    .footer a:hover { border-color: #999; color: #1a1a1a; }
+    /* Trim at first/last */
+    .org-tree li:first-child::before { border: 0 none; }
+    .org-tree li:last-child::after { border: 0 none; }
+    .org-tree li:last-child::before { border-right: 2px solid #e2e8f0; border-radius: 0 6px 0 0; }
+    .org-tree li:first-child::after { border-radius: 6px 0 0 0; }
 
-    @media (max-width: 600px) {
-      .hero { padding: 48px 0 40px; }
-      .hero h1 { font-size: 1.8rem; }
-      .hero .stats { gap: 24px; }
-      .hero .stat-num { font-size: 1.4rem; }
-      .flow-steps { justify-content: flex-start; padding: 0 16px; }
-      .flow-step { min-width: 80px; }
-      .flow-node { width: 52px; height: 52px; font-size: 0.6rem; }
-      .flow-arrow { width: 24px; font-size: 1rem; }
+    /* Only child: no side bars, just a vertical stem (added via ul::before) */
+    .org-tree li:only-child::before,
+    .org-tree li:only-child::after { display: none; }
+
+    /* Vertical stem from a parent node down into its children ul */
+    .org-tree ul ul { padding-top: 28px; }
+    .org-tree ul ul::before {
+      content: ''; position: absolute; top: 0; left: 50%;
+      width: 2px; height: 28px;
+      background: #e2e8f0; transform: translateX(-1px);
+    }
+
+    /* CEO Node */
+    .ceo-node {
+      display: inline-flex; align-items: center; gap: 14px;
+      padding: 14px 22px; background: #0f172a; color: #fff;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(15,23,42,0.2);
+    }
+    .ceo-avatar {
+      width: 42px; height: 42px; border-radius: 10px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.2rem; letter-spacing: -1px;
+    }
+    .ceo-name { font-size: 0.95rem; font-weight: 700; line-height: 1.2; }
+    .ceo-role { font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+    /* Tree Nodes (clickable agents) */
+    .tree-node {
+      display: flex; flex-direction: column; align-items: center;
+      background: #fff; border: 1px solid #e2e8f0; border-radius: 14px;
+      padding: 14px 12px 12px; cursor: pointer;
+      width: 140px; transition: all .2s ease;
+      font-family: inherit; text-align: center;
+      position: relative; gap: 2px;
+    }
+    .tree-node:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(15,23,42,0.08);
+      border-color: var(--node-color, #2563eb);
+    }
+    .tree-node:focus-visible {
+      outline: 2px solid var(--node-color, #2563eb); outline-offset: 2px;
+    }
+    .tree-node.head { width: 160px; padding-top: 16px; }
+    .tree-node.head::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--node-color, #2563eb);
+      border-radius: 14px 14px 0 0;
+    }
+    .tree-avatar {
+      width: 48px; height: 48px; border-radius: 12px;
+      object-fit: cover; background: #f1f5f9;
+      border: 1px solid #e2e8f0; margin-bottom: 8px;
+    }
+    .tree-avatar.lg { width: 60px; height: 60px; border-radius: 14px; }
+    .tree-name {
+      font-size: 0.92rem; font-weight: 700; color: #0f172a;
+      letter-spacing: 0.3px;
+    }
+    .tree-node.head .tree-name { font-size: 1rem; }
+    .tree-sub {
+      font-size: 0.72rem; color: #64748b;
+      line-height: 1.25;
+    }
+    .tree-chip {
+      margin-top: 6px; font-size: 0.62rem; font-weight: 700;
+      padding: 2px 7px; border-radius: 999px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .tree-chip.opus { color: #7c3aed; background: #f3e8ff; }
+    .tree-chip.sonnet { color: #0369a1; background: #e0f2fe; }
+
+    /* Dept colors (CSS variables for each branch) */
+    .tree-branch.dept-intel { --node-color: #2563eb; }
+    .tree-branch.dept-trading { --node-color: #16a34a; }
+    .tree-branch.dept-ops { --node-color: #ea580c; }
+
+    .tree-hint {
+      text-align: center; font-size: 0.82rem; color: #94a3b8;
+      margin-top: 28px;
+    }
+
+    /* ─── Modal ────────────────────────────────────────────────── */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(15,23,42,0.55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px; opacity: 0; pointer-events: none;
+      transition: opacity .2s ease;
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: auto; }
+    .modal {
+      background: #fff; border-radius: 18px; max-width: 680px; width: 100%;
+      max-height: 90vh; overflow: hidden; display: flex; flex-direction: column;
+      box-shadow: 0 25px 60px rgba(15,23,42,0.25);
+      transform: translateY(20px) scale(.98);
+      transition: transform .25s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .modal-backdrop.open .modal { transform: translateY(0) scale(1); }
+
+    .modal-close {
+      position: absolute; top: 16px; right: 16px;
+      width: 36px; height: 36px; border: none; border-radius: 10px;
+      background: rgba(255,255,255,0.9); color: #64748b;
+      font-size: 1.3rem; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .15s; z-index: 2;
+    }
+    .modal-close:hover { background: #fff; color: #0f172a; transform: rotate(90deg); }
+
+    .modal-header {
+      padding: 32px 32px 24px; position: relative;
+      background: linear-gradient(180deg, var(--agent-bg, #f1f5f9) 0%, #fff 100%);
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .modal-header-top { display: flex; gap: 20px; align-items: center; }
+    .modal-avatar {
+      width: 80px; height: 80px; border-radius: 18px;
+      object-fit: cover; background: #fff; flex-shrink: 0;
+      border: 2px solid #fff;
+      box-shadow: 0 4px 16px rgba(15,23,42,0.08);
+    }
+    .modal-name {
+      font-size: 1.6rem; font-weight: 800; color: #0f172a;
+      letter-spacing: -0.5px; margin-bottom: 2px;
+    }
+    .modal-role { font-size: 0.95rem; color: #64748b; margin-bottom: 10px; }
+    .modal-meta {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .modal-badge {
+      font-size: 0.7rem; font-weight: 600;
+      padding: 3px 10px; border-radius: 999px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .modal-badge.dept-intel { background: #dbeafe; color: #1d4ed8; }
+    .modal-badge.dept-trading { background: #dcfce7; color: #15803d; }
+    .modal-badge.dept-ops { background: #ffedd5; color: #c2410c; }
+    .modal-badge.opus { background: #f3e8ff; color: #7c3aed; }
+    .modal-badge.sonnet { background: #e0f2fe; color: #0369a1; }
+    .modal-tagline {
+      margin-top: 18px; font-size: 0.92rem; color: #334155;
+      padding: 14px 16px; background: #fff;
+      border-radius: 10px; border: 1px solid #e2e8f0;
+      font-style: italic;
+    }
+
+    .modal-tabs {
+      display: flex; border-bottom: 1px solid #e2e8f0;
+      background: #fff; padding: 0 32px;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .modal-tabs::-webkit-scrollbar { display: none; }
+    .modal-tab {
+      background: none; border: none; padding: 14px 16px;
+      font-size: 0.88rem; font-weight: 600; color: #94a3b8;
+      border-bottom: 2px solid transparent;
+      transition: all .15s; white-space: nowrap;
+    }
+    .modal-tab:hover { color: #475569; }
+    .modal-tab.active { color: #2563eb; border-bottom-color: #2563eb; }
+
+    .modal-body {
+      padding: 28px 32px; overflow-y: auto; flex: 1;
+    }
+    .tab-pane { display: none; animation: fadeIn .2s ease; }
+    .tab-pane.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .tab-pane h4 {
+      font-size: 0.75rem; font-weight: 700; color: #64748b;
+      text-transform: uppercase; letter-spacing: 1.2px;
+      margin: 0 0 12px;
+    }
+    .tab-pane h4:not(:first-child) { margin-top: 24px; }
+    .tab-list { list-style: none; padding: 0; margin: 0; }
+    .tab-list li {
+      padding: 10px 0 10px 24px; position: relative;
+      font-size: 0.92rem; color: #334155; line-height: 1.6;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .tab-list li:last-child { border-bottom: none; }
+    .tab-list li::before {
+      content: ''; position: absolute; left: 4px; top: 20px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--agent-accent, #2563eb);
+    }
+    .tab-list.rules li::before {
+      background: transparent; border: 1.5px solid var(--agent-accent, #2563eb);
+      top: 17px; width: 8px; height: 8px;
+    }
+    .overview-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px; margin-bottom: 8px;
+    }
+    .overview-item {
+      padding: 14px; background: #f8fafc; border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+    .overview-item .k {
+      font-size: 0.7rem; color: #94a3b8;
+      text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+    }
+    .overview-item .v { font-size: 0.92rem; color: #0f172a; margin-top: 4px; font-weight: 600; }
+
+    .history-item {
+      display: flex; gap: 14px; padding: 14px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .history-item:last-child { border-bottom: none; }
+    .history-date {
+      flex-shrink: 0; width: 90px; font-size: 0.78rem;
+      color: #94a3b8; font-weight: 600;
+    }
+    .history-event { font-size: 0.9rem; color: #334155; line-height: 1.5; }
+    .history-note {
+      margin-top: 16px; padding: 12px 14px;
+      background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
+      font-size: 0.82rem; color: #92400e;
+    }
+
+    .stats-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px;
+    }
+    .stat-block {
+      padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;
+      background: #f8fafc;
+    }
+    .stat-block .val {
+      font-size: 1.6rem; font-weight: 800; color: #0f172a;
+      letter-spacing: -0.5px; line-height: 1;
+    }
+    .stat-block .val.positive { color: #16a34a; }
+    .stat-block .val.negative { color: #dc2626; }
+    .stat-block .k {
+      font-size: 0.7rem; color: #94a3b8;
+      text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .stat-block .sub { font-size: 0.78rem; color: #64748b; margin-top: 6px; }
+
+    /* ─── Trade Flow ───────────────────────────────────────────── */
+    .flow-wrapper { padding: 20px 0; overflow-x: auto; }
+    .flow-steps {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0; min-width: fit-content; margin: 0 auto;
+    }
+    .flow-step {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      min-width: 100px;
+    }
+    .flow-node {
+      width: 68px; height: 68px; border-radius: 50%;
+      border: 2px solid #e2e8f0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 700; color: #94a3b8;
+      background: #fff; transition: all .4s ease;
+    }
+    .flow-node.active {
+      border-color: #2563eb; color: #2563eb;
+      box-shadow: 0 0 0 6px rgba(37,99,235,0.1);
+    }
+    .flow-node.done {
+      border-color: #2563eb; color: #fff; background: #2563eb;
+    }
+    .flow-label {
+      font-size: 0.75rem; color: #94a3b8; margin-top: 10px; transition: color .3s;
+    }
+    .flow-label.active { color: #2563eb; font-weight: 600; }
+    .flow-arrow {
+      width: 44px; text-align: center; color: #cbd5e1;
+      font-size: 1.2rem; margin-bottom: 28px; transition: color .3s;
+    }
+    .flow-arrow.active { color: #2563eb; }
+    .flow-message {
+      text-align: center; margin-top: 28px; min-height: 48px;
+      padding: 0 20px;
+    }
+    .flow-message p {
+      font-size: 0.92rem; color: #475569;
+      opacity: 0; transition: opacity .4s;
+    }
+    .flow-message p.visible { opacity: 1; }
+    .flow-controls { text-align: center; margin-top: 18px; }
+    .flow-btn {
+      font-size: 0.85rem; font-weight: 600;
+      padding: 10px 24px; border: 1px solid #e2e8f0;
+      background: #fff; border-radius: 10px; color: #334155;
+      transition: all .15s;
+    }
+    .flow-btn:hover { border-color: #2563eb; color: #2563eb; }
+
+    /* ─── How it works ─────────────────────────────────────────── */
+    .how-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .how-card {
+      padding: 28px 24px; background: #fff;
+      border: 1px solid #e2e8f0; border-radius: 14px;
+      transition: all .2s;
+    }
+    .how-card:hover { border-color: #cbd5e1; box-shadow: 0 4px 16px rgba(15,23,42,0.04); }
+    .how-num {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: #eff6ff; color: #2563eb;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.95rem; margin-bottom: 14px;
+    }
+    .how-card h4 { font-size: 1rem; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
+    .how-card p { font-size: 0.88rem; color: #475569; line-height: 1.55; }
+
+    /* ─── Roadmap ──────────────────────────────────────────────── */
+    .roadmap { display: flex; flex-direction: column; gap: 16px; }
+    .roadmap-group {
+      padding: 22px 24px; background: #fff;
+      border: 1px solid #e2e8f0; border-radius: 14px;
+      border-left: 4px solid;
+    }
+    .roadmap-group.group-foundation { border-left-color: #8b5cf6; }
+    .roadmap-group.group-agent { border-left-color: #2563eb; }
+    .roadmap-group.group-prod { border-left-color: #16a34a; }
+    .roadmap-head {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;
+    }
+    .roadmap-head .title {
+      font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.2px; color: #475569;
+    }
+    .roadmap-count { font-size: 0.72rem; font-weight: 700; }
+    .group-foundation .roadmap-count { color: #8b5cf6; }
+    .group-agent .roadmap-count { color: #2563eb; }
+    .group-prod .roadmap-count { color: #16a34a; }
+    .roadmap-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 8px;
+    }
+    .roadmap-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 8px;
+      font-size: 0.85rem; color: #0f172a;
+      background: #f8fafc; border: 1px solid #e2e8f0;
+    }
+    .roadmap-num {
+      flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700; color: #fff;
+    }
+    .group-foundation .roadmap-num { background: #8b5cf6; }
+    .group-agent .roadmap-num { background: #2563eb; }
+    .group-prod .roadmap-num { background: #16a34a; }
+
+    /* ─── Tech Stack ──────────────────────────────────────────── */
+    .tech-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .tech-badge {
+      font-size: 0.82rem; padding: 8px 14px;
+      background: #fff; border: 1px solid #e2e8f0;
+      border-radius: 8px; color: #334155; font-weight: 500;
+    }
+
+    /* ─── Footer ───────────────────────────────────────────────── */
+    .site-footer {
+      padding: 40px 0; border-top: 1px solid #e2e8f0;
+      text-align: center; font-size: 0.88rem; color: #94a3b8;
+    }
+    .site-footer a { color: #2563eb; font-weight: 500; }
+
+    /* ─── Responsive ───────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      section { padding: 56px 0; }
+      .hero { padding: 64px 0 48px; }
+      .hero h1 { font-size: 2rem; }
+      .hero .tagline { font-size: 1rem; }
+      .hero-stat { padding: 18px 16px; }
+      .hero-stat .num { font-size: 1.5rem; }
+      .section-head h2 { font-size: 1.5rem; }
+      .nav-links { gap: 14px; }
       .agents-grid { grid-template-columns: 1fr; }
-      section { padding: 40px 0; }
+      .how-grid { grid-template-columns: 1fr; }
+      .flow-step { min-width: 74px; }
+      .flow-node { width: 54px; height: 54px; font-size: 0.62rem; }
+      .flow-arrow { width: 24px; font-size: 1rem; }
+      .modal { max-height: 94vh; border-radius: 14px; }
+      .modal-header { padding: 28px 20px 20px; }
+      .modal-header-top { flex-direction: column; text-align: center; gap: 14px; }
+      .modal-avatar { width: 72px; height: 72px; }
+      .modal-meta { justify-content: center; }
+      .modal-tabs { padding: 0 16px; }
+      .modal-tab { padding: 12px 10px; font-size: 0.82rem; }
+      .modal-body { padding: 20px 20px; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .history-date { width: 72px; font-size: 0.72rem; }
+      /* Tree fits narrower */
+      .tree-node { width: 128px; padding: 10px 10px 10px; }
+      .tree-node.head { width: 144px; }
+      .tree-avatar { width: 40px; height: 40px; }
+      .tree-avatar.lg { width: 50px; height: 50px; }
+      .tree-name { font-size: 0.82rem; }
+      .tree-node.head .tree-name { font-size: 0.9rem; }
+      .tree-sub { font-size: 0.66rem; }
+      .org-tree li { padding: 24px 8px 0; }
+      .org-tree li::before, .org-tree li::after { height: 24px; }
+      .org-tree ul ul { padding-top: 24px; }
+      .org-tree ul ul::before { height: 24px; }
+      .ceo-node { padding: 12px 18px; }
+    }
+    @media (max-width: 420px) {
+      .nav-links a:not(.nav-back) { display: none; }
+      .hero h1 { font-size: 1.7rem; }
+      .roadmap-items { grid-template-columns: 1fr; }
+      .tree-node { width: 108px; }
+      .tree-node.head { width: 120px; }
+      .tree-sub { display: none; } /* keep mobile compact */
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Navigation -->
+  <!-- ═══ Nav ═══════════════════════════════════════════════════ -->
   <nav class="topnav">
     <div class="container">
-      <span class="brand" style="display:inline-flex;align-items:center;gap:8px;">
-        <svg width="36" height="28" viewBox="0 0 44 52" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="6" y1="30" x2="6" y2="48" stroke="#2563eb" stroke-width="1.5"/><rect x="2" y="34" width="8" height="10" rx="1" fill="#2563eb" opacity="0.4"/><line x1="22" y1="20" x2="22" y2="46" stroke="#2563eb" stroke-width="1.5"/><rect x="18" y="24" width="8" height="16" rx="1" fill="#2563eb" opacity="0.65"/><line x1="38" y1="4" x2="38" y2="42" stroke="#2563eb" stroke-width="1.5"/><rect x="34" y="10" width="8" height="24" rx="1" fill="#2563eb"/></svg>
+      <a href="#top" class="brand">
+        <span class="brand-logo">G</span>
         Gil's Company
-      </span>
-      <a href="/">← Back to Portfolio</a>
+      </a>
+      <div class="nav-links">
+        <a href="#performance">Performance</a>
+        <a href="#team">Team</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="../index.html" class="nav-back">← Portfolio</a>
+      </div>
     </div>
   </nav>
 
-  <!-- Hero -->
-  <header class="hero">
+  <!-- ═══ Hero ══════════════════════════════════════════════════ -->
+  <header class="hero" id="top">
     <div class="container">
-      <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:4px;">
-        <svg width="52" height="44" viewBox="0 0 44 52" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="6" y1="30" x2="6" y2="48" stroke="#2563eb" stroke-width="1.5"/><rect x="2" y="34" width="8" height="10" rx="1" fill="#2563eb" opacity="0.4"/><line x1="22" y1="20" x2="22" y2="46" stroke="#2563eb" stroke-width="1.5"/><rect x="18" y="24" width="8" height="16" rx="1" fill="#2563eb" opacity="0.65"/><line x1="38" y1="4" x2="38" y2="42" stroke="#2563eb" stroke-width="1.5"/><rect x="34" y="10" width="8" height="24" rx="1" fill="#2563eb"/></svg>
-        <h1>Gil's Company</h1>
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        Paper Trading · Active
       </div>
-      <p class="tagline">An autonomous AI trading company — 9 agents across 3 departments that analyze markets, manage risk, and execute trades without human intervention.</p>
-      <div class="stats">
-        <div class="stat"><div class="stat-num">9</div><div class="stat-label">AI Agents</div></div>
-        <div class="stat"><div class="stat-num">3</div><div class="stat-label">Departments</div></div>
-        <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Autonomous</div></div>
+      <h1>An <span class="accent">autonomous AI</span> trading company.</h1>
+      <p class="tagline">
+        9 specialized agents across 3 departments analyze markets, manage risk,
+        and execute trades — coordinated 24/7 without human intervention.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="num">9</div>
+          <div class="label">AI Agents</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">3</div>
+          <div class="label">Departments</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num" id="hero-trades">—</div>
+          <div class="label">Trades Executed</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">24/7</div>
+          <div class="label">Autonomous</div>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- Live Trade Flow Animation -->
-  <section class="flow-section">
+  <!-- ═══ Performance ══════════════════════════════════════════ -->
+  <section class="alt" id="performance">
     <div class="container">
-      <h2>Live Trade Flow</h2>
-      <p style="color:#666; font-size:0.9rem; margin-bottom:24px;">Watch a trade signal move through the agent chain of command — from detection to execution.</p>
+      <div class="section-head">
+        <div class="eyebrow">Live Performance</div>
+        <h2>Real trades, real data.</h2>
+        <p>Every number on this page is pulled from the company's own portfolio — updated after every trade execution.</p>
+      </div>
+      <div class="perf-grid" id="perf-grid">
+        <div class="perf-card">
+          <div class="perf-label">Loading</div>
+          <div class="perf-num" style="color:#cbd5e1;">—</div>
+        </div>
+        <div class="perf-card">
+          <div class="perf-label">Loading</div>
+          <div class="perf-num" style="color:#cbd5e1;">—</div>
+        </div>
+        <div class="perf-card">
+          <div class="perf-label">Loading</div>
+          <div class="perf-num" style="color:#cbd5e1;">—</div>
+        </div>
+        <div class="perf-card">
+          <div class="perf-label">Loading</div>
+          <div class="perf-num" style="color:#cbd5e1;">—</div>
+        </div>
+      </div>
+      <div class="perf-footer">
+        <span><strong>Paper trading</strong> · $100,000 starting capital · Fully autonomous</span>
+        <span id="perf-updated"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ The Team — Org Hierarchy ═════════════════════════════ -->
+  <section id="team">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">The Team</div>
+        <h2>Company hierarchy.</h2>
+
+      </div>
+
+      <div class="org-legend">
+        <span class="legend-item"><span class="legend-dot" style="background:#2563eb"></span> Intelligence</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#16a34a"></span> Trading</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#ea580c"></span> Operations</span>
+      </div>
+
+      <div class="org-tree">
+        <ul class="tree-root">
+          <li class="tree-ceo-li">
+            <a href="../cv.pdf" target="_blank" class="tree-node head" aria-label="Gil Shavit — Founder & CEO">
+              <div class="tree-avatar lg ceo-avatar">G</div>
+              <div class="tree-name">Gil Shavit</div>
+              <div class="tree-sub">Founder · CEO</div>
+              <span class="tree-chip" style="background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;">CV</span>
+            </a>
+            <ul class="tree-depts">
+              <!-- Intelligence branch -->
+              <li class="tree-branch dept-intel">
+                <button class="tree-node head" data-agent="oracle" aria-label="ORACLE — Head of Intelligence">
+                  <img class="tree-avatar lg" src="avatars/oracle.png" alt="" loading="lazy">
+                  <div class="tree-name">ORACLE</div>
+                  <div class="tree-sub">Head of Intelligence</div>
+                  <span class="tree-chip opus">Opus</span>
+                </button>
+                <ul>
+                  <li>
+                    <button class="tree-node sub" data-agent="radar" aria-label="RADAR — News & Sentiment">
+                      <img class="tree-avatar" src="avatars/radar.png" alt="" loading="lazy">
+                      <div class="tree-name">RADAR</div>
+                      <div class="tree-sub">News &amp; Sentiment</div>
+                      <span class="tree-chip sonnet">Sonnet</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="tree-node sub" data-agent="quant" aria-label="QUANT — Technical Analyst">
+                      <img class="tree-avatar" src="avatars/quant.png" alt="" loading="lazy">
+                      <div class="tree-name">QUANT</div>
+                      <div class="tree-sub">Technical Analyst</div>
+                      <span class="tree-chip sonnet">Sonnet</span>
+                    </button>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- Trading branch -->
+              <li class="tree-branch dept-trading">
+                <button class="tree-node head" data-agent="apex" aria-label="APEX — Head of Trading">
+                  <img class="tree-avatar lg" src="avatars/apex.png" alt="" loading="lazy">
+                  <div class="tree-name">APEX</div>
+                  <div class="tree-sub">Head of Trading</div>
+                  <span class="tree-chip opus">Opus</span>
+                </button>
+                <ul>
+                  <li>
+                    <button class="tree-node sub" data-agent="shield" aria-label="SHIELD — Risk Manager">
+                      <img class="tree-avatar" src="avatars/shield.png" alt="" loading="lazy">
+                      <div class="tree-name">SHIELD</div>
+                      <div class="tree-sub">Risk Manager</div>
+                      <span class="tree-chip sonnet">Sonnet</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="tree-node sub" data-agent="broker" aria-label="BROKER — Trade Executor">
+                      <img class="tree-avatar" src="avatars/broker.png" alt="" loading="lazy">
+                      <div class="tree-name">BROKER</div>
+                      <div class="tree-sub">Trade Executor</div>
+                      <span class="tree-chip sonnet">Sonnet</span>
+                    </button>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- Operations branch -->
+              <li class="tree-branch dept-ops">
+                <button class="tree-node head" data-agent="mike" aria-label="MIKE — Chief of Staff">
+                  <img class="tree-avatar lg" src="avatars/mike.png" alt="" loading="lazy">
+                  <div class="tree-name">MIKE</div>
+                  <div class="tree-sub">Chief of Staff</div>
+                  <span class="tree-chip opus">Opus</span>
+                </button>
+                <ul>
+                  <li>
+                    <button class="tree-node sub" data-agent="pulse" aria-label="PULSE — System Monitor">
+                      <img class="tree-avatar" src="avatars/pulse.png" alt="" loading="lazy">
+                      <div class="tree-name">PULSE</div>
+                      <div class="tree-sub">System Monitor</div>
+                      <span class="tree-chip sonnet">Sonnet</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="tree-node sub" data-agent="nova" aria-label="NOVA — Marketing (v2)">
+                      <img class="tree-avatar" src="avatars/nova.png" alt="" loading="lazy">
+                      <div class="tree-name">NOVA</div>
+                      <div class="tree-sub">Marketing (v2)</div>
+                      <span class="tree-chip sonnet">Sonnet</span>
+                    </button>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <p class="tree-hint">👆 Tap any agent to see their rules, history, and stats.</p>
+    </div>
+  </section>
+
+  <!-- ═══ Trade Flow ═══════════════════════════════════════════ -->
+  <section class="alt">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">How a Trade Flows</div>
+        <h2>From signal to execution.</h2>
+        <p>Watch a trade move through the agent chain of command — every step, every check.</p>
+      </div>
       <div class="flow-wrapper">
         <div class="flow-steps">
-          <div class="flow-step" data-step="0">
-            <div class="flow-node" id="fn-radar">RADAR</div>
-            <div class="flow-label">Detects Signal</div>
-          </div>
+          <div class="flow-step"><div class="flow-node" id="fn-radar">RADAR</div><div class="flow-label">Detects</div></div>
           <div class="flow-arrow" id="fa-0">→</div>
-          <div class="flow-step" data-step="1">
-            <div class="flow-node" id="fn-oracle">ORACLE</div>
-            <div class="flow-label">Analyzes</div>
-          </div>
+          <div class="flow-step"><div class="flow-node" id="fn-oracle">ORACLE</div><div class="flow-label">Analyzes</div></div>
           <div class="flow-arrow" id="fa-1">→</div>
-          <div class="flow-step" data-step="2">
-            <div class="flow-node" id="fn-apex">APEX</div>
-            <div class="flow-label">Decides</div>
-          </div>
+          <div class="flow-step"><div class="flow-node" id="fn-apex">APEX</div><div class="flow-label">Decides</div></div>
           <div class="flow-arrow" id="fa-2">→</div>
-          <div class="flow-step" data-step="3">
-            <div class="flow-node" id="fn-shield">SHIELD</div>
-            <div class="flow-label">Risk Check</div>
-          </div>
+          <div class="flow-step"><div class="flow-node" id="fn-shield">SHIELD</div><div class="flow-label">Risk Check</div></div>
           <div class="flow-arrow" id="fa-3">→</div>
-          <div class="flow-step" data-step="4">
-            <div class="flow-node" id="fn-broker">BROKER</div>
-            <div class="flow-label">Executes</div>
-          </div>
+          <div class="flow-step"><div class="flow-node" id="fn-broker">BROKER</div><div class="flow-label">Executes</div></div>
         </div>
       </div>
       <div class="flow-message">
-        <p id="flow-msg">Press play to watch a trade flow through the system.</p>
-      </div>
-      <div class="flow-controls">
-        <button id="flow-btn" onclick="startFlow()">▶ Play Trade Flow</button>
+        <p id="flow-msg"></p>
       </div>
     </div>
   </section>
 
-  <!-- How It Works -->
+  <!-- ═══ How It Works ═════════════════════════════════════════ -->
   <section>
     <div class="container">
-      <h2>How It Works</h2>
-      <div class="how-list">
-        <div class="how-item">
+      <div class="section-head">
+        <div class="eyebrow">How It Works</div>
+        <h2>Four stages, fully autonomous.</h2>
+      </div>
+      <div class="how-grid">
+        <div class="how-card">
           <div class="how-num">1</div>
-          <div class="how-text">
-            <h4>Intelligence Gathering</h4>
-            <p>RADAR scans news, sentiment, and SEC filings every 15 minutes. QUANT runs technical analysis — SMA 150 crossovers, RSI, volume patterns. Both report to ORACLE.</p>
-          </div>
+          <h4>Intelligence Gathering</h4>
+          <p>RADAR scans news, sentiment, and SEC filings every 15 min. QUANT runs technical analysis — SMA 150 crossovers, RSI, volume. Both report to ORACLE.</p>
         </div>
-        <div class="how-item">
+        <div class="how-card">
           <div class="how-num">2</div>
-          <div class="how-text">
-            <h4>Decision Making</h4>
-            <p>ORACLE synthesizes intelligence into actionable briefings and sends them to APEX. APEX reviews past lessons for the ticker, evaluates the opportunity, and decides whether to trade.</p>
-          </div>
+          <h4>Decision Making</h4>
+          <p>ORACLE synthesizes intelligence into briefings and sends them to APEX. APEX reviews past lessons, evaluates the opportunity, and decides whether to trade.</p>
         </div>
-        <div class="how-item">
+        <div class="how-card">
           <div class="how-num">3</div>
-          <div class="how-text">
-            <h4>Risk Assessment</h4>
-            <p>Every trade must pass through SHIELD — the risk manager with veto power. SHIELD checks stop-losses, position sizing, cash reserves, portfolio concentration, and scores risk 0–100.</p>
-          </div>
+          <h4>Risk Assessment</h4>
+          <p>Every trade passes through SHIELD — the risk manager with veto power. SHIELD checks stops, position sizing, cash reserves, and scores risk 0–100.</p>
         </div>
-        <div class="how-item">
+        <div class="how-card">
           <div class="how-num">4</div>
-          <div class="how-text">
-            <h4>Execution & Monitoring</h4>
-            <p>BROKER executes approved trades with full validation (7 checks). PULSE monitors system health 24/7, auto-restarts crashed agents, and MIKE escalates critical issues via Telegram.</p>
-          </div>
+          <h4>Execution &amp; Monitoring</h4>
+          <p>BROKER executes approved trades with 7 mandatory checks. PULSE monitors system health 24/7, MIKE escalates critical issues to Gil via Telegram.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Departments & Agents -->
-  <section>
+  <!-- ═══ Roadmap ══════════════════════════════════════════════ -->
+  <section class="alt" id="roadmap">
     <div class="container">
-      <h2>The Team</h2>
-
-      <!-- Intelligence -->
-      <div class="dept">
-        <div class="dept-header">
-          <div class="dept-dot" style="background:#4a90d9;"></div>
-          <h3>Intelligence Department</h3>
-          <span>— Market analysis & data</span>
-        </div>
-        <div class="agents-grid">
-          <div class="agent-card">
-            <div class="agent-name">ORACLE</div>
-            <div class="agent-role">Head of Intelligence</div>
-            <div class="agent-model">Claude Opus</div>
-            <p>Synthesizes all intelligence inputs into actionable briefings. Receives reports from RADAR and QUANT, identifies the strongest opportunities, and briefs APEX with clear recommendations.</p>
-          </div>
-          <div class="agent-card">
-            <div class="agent-name">RADAR</div>
-            <div class="agent-role">News & Sentiment Analyst</div>
-            <div class="agent-model">Claude Sonnet</div>
-            <p>Monitors Reuters RSS, SEC EDGAR 8-K filings, and Stocktwits sentiment in real-time. Flags breaking news, sentiment shifts, and unusual social activity. Reports to ORACLE.</p>
-          </div>
-          <div class="agent-card">
-            <div class="agent-name">QUANT</div>
-            <div class="agent-role">Technical Analyst</div>
-            <div class="agent-model">Claude Sonnet</div>
-            <p>Runs technical analysis via Yahoo Finance — SMA 20/50/150 crossovers, RSI readings, ATR for volatility, and volume confirmation. The numbers behind every trade decision.</p>
-          </div>
-        </div>
+      <div class="section-head">
+        <div class="eyebrow">Build Roadmap</div>
+        <h2>23 phases. Zero to autonomous.</h2>
       </div>
-
-      <!-- Trading -->
-      <div class="dept">
-        <div class="dept-header">
-          <div class="dept-dot" style="background:#2ecc71;"></div>
-          <h3>Trading Department</h3>
-          <span>— Decisions, risk & execution</span>
-        </div>
-        <div class="agents-grid">
-          <div class="agent-card">
-            <div class="agent-name">APEX</div>
-            <div class="agent-role">Head of Trading</div>
-            <div class="agent-model">Claude Opus</div>
-            <p>The decision-maker. Receives intelligence briefings from ORACLE, reviews past lessons for each ticker, and decides whether to buy or sell. Every order includes a technical reason and must pass SHIELD's approval.</p>
-          </div>
-          <div class="agent-card">
-            <div class="agent-name">SHIELD</div>
-            <div class="agent-role">Risk Manager</div>
-            <div class="agent-model">Claude Opus</div>
-            <p>Has absolute veto power over every trade. Validates stop-losses (-7%), position sizing ($5K–$10K), cash reserves ($20K minimum), and portfolio concentration. Scores risk 0–100.</p>
-          </div>
-          <div class="agent-card">
-            <div class="agent-name">BROKER</div>
-            <div class="agent-role">Trade Executor</div>
-            <div class="agent-model">Claude Sonnet</div>
-            <p>Executes SHIELD-approved trades with 7 mandatory validation checks: trading hours, reason quality, trade size, position limits, cash reserve, position count, and SHIELD approval.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Operations -->
-      <div class="dept">
-        <div class="dept-header">
-          <div class="dept-dot" style="background:#e67e22;"></div>
-          <h3>Operations Department</h3>
-          <span>— Monitoring & coordination</span>
-        </div>
-        <div class="agents-grid">
-          <div class="agent-card">
-            <div class="agent-name">MIKE</div>
-            <div class="agent-role">Head of Operations</div>
-            <div class="agent-model">Claude Sonnet</div>
-            <p>The operational backbone. Oversees system health, coordinates inter-agent communication, and escalates critical issues directly to Gil via Telegram. Manages PULSE and NOVA.</p>
-          </div>
-          <div class="agent-card">
-            <div class="agent-name">PULSE</div>
-            <div class="agent-role">System Monitor</div>
-            <div class="agent-model">Claude Sonnet</div>
-            <p>24/7 health monitoring. Tracks agent status, detects failures, auto-restarts crashed agents (with 3-strike limit), and reports system metrics to MIKE.</p>
-          </div>
-          <div class="agent-card">
-            <div class="agent-name">NOVA</div>
-            <div class="agent-role">Marketing (Planned v2)</div>
-            <div class="agent-model">Claude Sonnet</div>
-            <p>Future agent for content generation — market insights, trade summaries, and public-facing reports. Planned for version 2 of the platform.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Build Roadmap -->
-  <section>
-    <div class="container">
-      <h2>Build Roadmap</h2>
-      <p style="color:#666; font-size:0.9rem; margin-bottom:28px;">23 phases from zero to a fully autonomous AI trading company. Here's the journey.</p>
       <div class="roadmap">
-        <div class="roadmap-group">
-          <div class="roadmap-group-title">Foundation</div>
+        <div class="roadmap-group group-foundation">
+          <div class="roadmap-head">
+            <div class="title">Foundation</div>
+            <div class="roadmap-count">9 / 9 complete</div>
+          </div>
           <div class="roadmap-items">
-            <div class="roadmap-item done"><span class="roadmap-num">1</span><span>Discover the Company</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">2</span><span>Memory Layer (CLAUDE.md)</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">3</span><span>Skills Library</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">4</span><span>Hooks Layer</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">5</span><span>Subagents Team</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">6</span><span>MCP Integrations</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">7</span><span>Learning From Mistakes</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">8</span><span>Package for Team</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">9</span><span>Core Trading Infrastructure</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">1</span><span>Discover the Company</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">2</span><span>Memory Layer (CLAUDE.md)</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">3</span><span>Skills Library</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">4</span><span>Hooks Layer</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">5</span><span>Subagents Team</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">6</span><span>MCP Integrations</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">7</span><span>Learning From Mistakes</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">8</span><span>Package for Team</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">9</span><span>Core Trading Infra</span></div>
           </div>
         </div>
-        <div class="roadmap-group">
-          <div class="roadmap-group-title">Agent Build</div>
+        <div class="roadmap-group group-agent">
+          <div class="roadmap-head">
+            <div class="title">Agent Build</div>
+            <div class="roadmap-count">9 / 9 complete</div>
+          </div>
           <div class="roadmap-items">
-            <div class="roadmap-item done"><span class="roadmap-num">10</span><span>RADAR — News & Sentiment</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">11</span><span>QUANT — Technical Analysis</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">12</span><span>ORACLE — Intelligence Chief</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">13</span><span>SHIELD — Risk Manager</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">14</span><span>BROKER — Trade Executor</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">15</span><span>APEX — Trading Chief</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">16</span><span>PULSE — System Monitor</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">17</span><span>MIKE — Operations Chief</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">18</span><span>NOVA — Marketing (v2)</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">10</span><span>RADAR</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">11</span><span>QUANT</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">12</span><span>ORACLE</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">13</span><span>SHIELD</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">14</span><span>BROKER</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">15</span><span>APEX</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">16</span><span>PULSE</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">17</span><span>MIKE</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">18</span><span>NOVA (v2)</span></div>
           </div>
         </div>
-        <div class="roadmap-group">
-          <div class="roadmap-group-title">Production</div>
+        <div class="roadmap-group group-prod">
+          <div class="roadmap-head">
+            <div class="title">Production</div>
+            <div class="roadmap-count">5 / 5 complete</div>
+          </div>
           <div class="roadmap-items">
-            <div class="roadmap-item done"><span class="roadmap-num">19</span><span>Ongoing Maintenance</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">20</span><span>Professional Guardrails</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">21</span><span>Advanced Multi-Agent Patterns</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">22</span><span>Video-to-Action Pipeline</span></div>
-            <div class="roadmap-item done"><span class="roadmap-num">23</span><span>Operational Hygiene</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">19</span><span>Ongoing Maintenance</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">20</span><span>Professional Guardrails</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">21</span><span>Multi-Agent Patterns</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">22</span><span>Video-to-Action Pipeline</span></div>
+            <div class="roadmap-item"><span class="roadmap-num">23</span><span>Operational Hygiene</span></div>
           </div>
         </div>
       </div>
-      <p style="margin-top:20px; font-size:0.85rem; color:#2563eb; font-weight:500;">All 23 phases complete.</p>
     </div>
   </section>
 
-  <!-- Tech Stack -->
+  <!-- ═══ Tech Stack ═══════════════════════════════════════════ -->
   <section>
     <div class="container">
-      <h2>Tech Stack</h2>
+      <div class="section-head">
+        <div class="eyebrow">Built With</div>
+        <h2>Tech Stack</h2>
+      </div>
       <div class="tech-grid">
         <span class="tech-badge">TypeScript (Strict)</span>
         <span class="tech-badge">Node.js 20+</span>
-        <span class="tech-badge">Claude AI (Opus / Sonnet / Haiku)</span>
+        <span class="tech-badge">Claude Opus / Sonnet</span>
         <span class="tech-badge">SQLite</span>
         <span class="tech-badge">Telegram Bot API</span>
         <span class="tech-badge">Yahoo Finance</span>
@@ -383,88 +1040,567 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <div class="footer">
-    <a href="/">← Back to Gil Shavit's Portfolio</a>
+  <!-- ═══ Footer ═══════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="container">
+      Built by <a href="/">Gil Shavit</a> · Tel Aviv · Powered by Claude Code
+    </div>
+  </footer>
+
+  <!-- ═══ Agent Modal ═════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document">
+      <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+      <div class="modal-header" id="modal-header">
+        <div class="modal-header-top">
+          <img class="modal-avatar" id="modal-avatar" src="" alt="">
+          <div>
+            <div class="modal-name" id="modal-name"></div>
+            <div class="modal-role" id="modal-role"></div>
+            <div class="modal-meta" id="modal-meta"></div>
+          </div>
+        </div>
+        <div class="modal-tagline" id="modal-tagline"></div>
+      </div>
+      <div class="modal-tabs" id="modal-tabs">
+        <button class="modal-tab active" data-tab="overview">Overview</button>
+        <button class="modal-tab" data-tab="rules">Rules</button>
+        <button class="modal-tab" data-tab="history">Work History</button>
+        <button class="modal-tab" data-tab="stats">Performance</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <div class="tab-pane active" id="tab-overview"></div>
+        <div class="tab-pane" id="tab-rules"></div>
+        <div class="tab-pane" id="tab-history"></div>
+        <div class="tab-pane" id="tab-stats"></div>
+      </div>
+    </div>
   </div>
 
-  <!-- Trade Flow Animation Script -->
   <script>
-    var nodes = ['radar', 'oracle', 'apex', 'shield', 'broker'];
-    var arrows = [0, 1, 2, 3];
-    var messages = [
+    /* ══════════════════════════════════════════════════════════
+       Agent Data (extracted from each agent's prompt.ts)
+       ══════════════════════════════════════════════════════════ */
+    const AGENTS = {
+      oracle: {
+        name: 'ORACLE', role: 'Head of Intelligence', dept: 'intel', deptLabel: 'Intelligence',
+        model: 'Claude Opus', modelClass: 'opus', accent: '#2563eb', bg: '#eff6ff',
+        avatar: 'avatars/oracle.png',
+        tagline: 'Strategic and authoritative — connects dots across news, technicals, and sentiment to brief APEX with the best opportunities.',
+        reports: 'Briefs APEX & MIKE',
+        manages: 'RADAR & QUANT',
+        responsibilities: [
+          'Receive news & sentiment data from RADAR',
+          'Receive technical analysis from QUANT',
+          'Synthesize both into concise trading briefs',
+          'Score opportunities 0–100, rank top 10 for APEX',
+          'Send morning briefings (9:30 AM ET) and EOD summaries (4:00 PM ET) to MIKE'
+        ],
+        rules: [
+          'Sends messages to APEX and MIKE ONLY — never to subordinates',
+          'Reactive — processes data when RADAR/QUANT send it, no polling',
+          'Only HOT and WARM tickers forwarded to APEX; COLD gets logged but not sent',
+          'If Claude API fails, degrade gracefully — forward raw data instead of synthesis',
+          'Never log API keys or auth headers in error messages'
+        ],
+        history: [
+          { date: 'Apr 15', event: 'Briefed APEX on AKAM — SMA 150 touch confirmed, Stocktwits 72% bullish' },
+          { date: 'Apr 14', event: 'Morning briefing: 3 watchlist movers flagged (AAPL, MSFT, AKAM)' },
+          { date: 'Apr 14', event: 'EOD summary: 7 signals generated, 2 acted on, 5 filtered as COLD' },
+          { date: 'Apr 10', event: 'Flagged APC opportunity — SMA alignment + positive 8-K filing' }
+        ],
+        stats: { primary: { k: 'Briefs Sent', v: '—' }, secondary: { k: 'Hit Rate', v: '—' }, note: 'Hit rate is computed after each brief produces a closed trade.' }
+      },
+      radar: {
+        name: 'RADAR', role: 'News & Sentiment Analyst', dept: 'intel', deptLabel: 'Intelligence',
+        model: 'Claude Sonnet', modelClass: 'sonnet', accent: '#2563eb', bg: '#eff6ff',
+        avatar: 'avatars/radar.png',
+        tagline: 'Professional but alert — like a newsroom analyst. Distills Reuters, SEC filings, and Stocktwits into actionable signals.',
+        reports: 'Reports to ORACLE',
+        manages: '—',
+        responsibilities: [
+          'Scan Reuters RSS for breaking business/finance news',
+          'Monitor SEC EDGAR for 8-K filings (material events)',
+          'Track Stocktwits sentiment (bullish/bearish ratios)',
+          'Summarize findings into short intelligence briefs',
+          'Flag anything urgent or unusual immediately'
+        ],
+        rules: [
+          'Sends messages ONLY to ORACLE — never APEX, BROKER, or others',
+          'Scans every 15 minutes during market hours (4 AM – 8 PM ET)',
+          'If a data source is down, skip it and note it — never crash',
+          'Validates all data before including it (no negative prices, invalid %)',
+          'Flag urgency: "URGENT" for market-moving events, "FYI" for context'
+        ],
+        history: [
+          { date: 'Apr 15', event: 'Detected AKAM breakout on SMA 150 + 48% volume spike' },
+          { date: 'Apr 14', event: 'Flagged URGENT: MSFT 8-K filing — restructuring announcement' },
+          { date: 'Apr 14', event: 'Sentiment shift: AAPL Stocktwits 58% → 71% bullish (12hr)' },
+          { date: 'Apr 11', event: 'Scan cycle #143: Reuters down 2 min, logged and skipped' }
+        ],
+        stats: { primary: { k: 'Scan Cycles', v: '—' }, secondary: { k: 'Signals Flagged', v: '—' }, note: 'RADAR runs every 15 min during trading hours — ~26 scans/day.' }
+      },
+      quant: {
+        name: 'QUANT', role: 'Technical Analyst', dept: 'intel', deptLabel: 'Intelligence',
+        model: 'Claude Sonnet', modelClass: 'sonnet', accent: '#2563eb', bg: '#eff6ff',
+        avatar: 'avatars/quant.png',
+        tagline: 'Analytical and precise — numbers first, opinions second. Shows its work on every indicator.',
+        reports: 'Reports to ORACLE',
+        manages: '—',
+        responsibilities: [
+          'Fetch historical price data from Yahoo Finance',
+          'Calculate SMA 20, SMA 50, SMA 150 (primary entry signal)',
+          'Calculate RSI 14 (overbought/oversold filter)',
+          'Calculate ATR 14 (volatility for position sizing)',
+          'Generate composite signal with confidence score 0–100'
+        ],
+        rules: [
+          'Sends messages ONLY to ORACLE',
+          'Primary buy signal: price touches or crosses above SMA 150',
+          'Confirmation requires RSI < 70 (not overbought)',
+          'Bullish alignment: SMA 20 > SMA 50 > SMA 150',
+          'All indicator math must be deterministic and testable'
+        ],
+        history: [
+          { date: 'Apr 15', event: 'AKAM signal: BULLISH, confidence 78 — SMA 150 touch + RSI 54' },
+          { date: 'Apr 14', event: 'AAPL signal: BULLISH, confidence 82 — SMA alignment + volume 1.4x avg' },
+          { date: 'Apr 14', event: 'NVDA signal: NEUTRAL, confidence 41 — RSI 71, overbought filter' },
+          { date: 'Apr 10', event: 'APC signal: BULLISH, confidence 69 — SMA 150 rising, ATR acceptable' }
+        ],
+        stats: { primary: { k: 'Tickers Analyzed', v: '—' }, secondary: { k: 'Bullish Signals', v: '—' }, note: 'QUANT analyzes the full watchlist every 15 min — output feeds ORACLE.' }
+      },
+      apex: {
+        name: 'APEX', role: 'Head of Trading', dept: 'trading', deptLabel: 'Trading',
+        model: 'Claude Opus', modelClass: 'opus', accent: '#16a34a', bg: '#f0fdf4',
+        avatar: 'avatars/apex.png',
+        tagline: 'Decisive and strategic — the buck stops here. Data-driven decisions, disciplined execution, no FOMO.',
+        reports: 'Top of Trading Dept.',
+        manages: 'SHIELD, BROKER',
+        responsibilities: [
+          'Receive ranked intel briefs from ORACLE (scored 0–100)',
+          'Evaluate briefs against portfolio state & past lessons',
+          'Build trade orders: $8K target, -7% stop, +15% target',
+          'Send trade requests to SHIELD for risk approval',
+          'After approval, forward orders to BROKER for execution'
+        ],
+        rules: [
+          'Score 70+: auto-build; 40–69: Claude Opus reasoning; <40: skip',
+          'NEVER bypass SHIELD — every trade goes through risk approval',
+          'NEVER execute trades — that is BROKER\u2019s job',
+          'Always check portfolio before every trade: cash, positions, duplicates',
+          'Read lessons file before trading any ticker'
+        ],
+        history: [
+          { date: 'Apr 15', event: 'BUY 47 AKAM @ $106.38 — SMA 150 touch, score 78, approved' },
+          { date: 'Apr 14', event: 'BUY 44 AAPL @ $182.22 — score 82, SHIELD approved risk 28/100' },
+          { date: 'Apr 14', event: 'Skipped NVDA — score 41, RSI overbought, not worth trading' },
+          { date: 'Apr 10', event: 'BUY 120 APC @ $66.50 — score 69, earnings tag: normal' }
+        ],
+        stats: { primary: { k: 'Trades Executed', v: '—', live: 'tradesExecuted' }, secondary: { k: 'Total P&L', v: '—', live: 'totalPnl' }, note: 'APEX owns the P&L — every buy decision is recorded and post-mortemed.' }
+      },
+      shield: {
+        name: 'SHIELD', role: 'Risk Manager', dept: 'trading', deptLabel: 'Trading',
+        model: 'Claude Sonnet', modelClass: 'sonnet', accent: '#16a34a', bg: '#f0fdf4',
+        avatar: 'avatars/shield.png',
+        tagline: 'Vigilant and conservative — protect the portfolio above all. Has absolute veto power on every trade.',
+        reports: 'Works with APEX',
+        manages: '—',
+        responsibilities: [
+          'Receive trade requests from APEX',
+          'Validate stop loss, position size, cash reserve, concentration',
+          'Run full risk scoring 0–100 with Micha rules',
+          'Reject trades failing ANY hard rule (no overrides)',
+          'Send decision back to APEX with clear reasons'
+        ],
+        rules: [
+          'Stop loss must be set and at least -7% from entry',
+          'Position size cannot exceed $10,000',
+          'Cash after trade must stay above $20,000 reserve',
+          'No duplicate positions — no averaging down',
+          'Price below falling SMA 150 → HARD REJECT (Micha\u2019s top rule)'
+        ],
+        history: [
+          { date: 'Apr 15', event: 'APPROVED AKAM — risk 32/100, stops set, cash reserve OK' },
+          { date: 'Apr 14', event: 'APPROVED AAPL — risk 28/100, all 7 checks passed' },
+          { date: 'Apr 14', event: 'REJECTED TSLA — price below falling SMA 150 (hard rule)' },
+          { date: 'Apr 10', event: 'APPROVED APC — risk 44/100, earnings not in blackout' }
+        ],
+        stats: { primary: { k: 'Trades Reviewed', v: '—' }, secondary: { k: 'Rejection Rate', v: '—' }, note: 'Every buy order passes through SHIELD — rejection rate ≈ 25–35% expected.' }
+      },
+      broker: {
+        name: 'BROKER', role: 'Trade Executor', dept: 'trading', deptLabel: 'Trading',
+        model: 'Claude Sonnet', modelClass: 'sonnet', accent: '#16a34a', bg: '#f0fdf4',
+        avatar: 'avatars/broker.png',
+        tagline: 'Precise and methodical — if BROKER says it is done, it is done. The last line of defense before execution.',
+        reports: 'Reports to APEX',
+        manages: '—',
+        responsibilities: [
+          'Execute SHIELD-approved trades (paper trading)',
+          'Run 7-check validation — even post-SHIELD (belt & suspenders)',
+          'Update portfolio.json atomically, with rotating backups',
+          'Log every trade to data/trades.json',
+          'Monitor open positions every 65 min for stop/target triggers'
+        ],
+        rules: [
+          'Sends messages ONLY to APEX',
+          'NEVER decides what to trade — APEX decides, BROKER executes',
+          'Validates independently — trust but verify SHIELD approval',
+          'Auto-sell at -7% stop-loss or +15% take-profit',
+          'Backup portfolio.json before every write (5-rotation)'
+        ],
+        history: [
+          { date: 'Apr 15', event: 'Executed BUY 47 AKAM @ $106.38 — 7 checks passed, confirmed to APEX' },
+          { date: 'Apr 14', event: 'Executed BUY 44 AAPL @ $182.22 — trade logged' },
+          { date: 'Apr 14', event: 'Position monitor cycle: all 3 positions within bounds' },
+          { date: 'Apr 10', event: 'Executed BUY 120 APC @ $66.50 — portfolio backup rotated' }
+        ],
+        stats: { primary: { k: 'Orders Executed', v: '—', live: 'tradesExecuted' }, secondary: { k: 'Open Positions', v: '—', live: 'openPositions' }, note: 'Every trade has a full audit trail: reason, stops, timestamp, portfolio snapshot.' }
+      },
+      mike: {
+        name: 'MIKE', role: 'Chief of Staff', dept: 'ops', deptLabel: 'Operations',
+        model: 'Claude Opus', modelClass: 'opus', accent: '#ea580c', bg: '#fff7ed',
+        avatar: 'avatars/mike.png',
+        tagline: 'Organized and reliable — Gil\u2019s trusted operations manager. Reports problems WITH recommendations, never without.',
+        reports: 'Reports to Gil',
+        manages: 'PULSE, NOVA',
+        responsibilities: [
+          'Receive health reports from PULSE — escalate critical issues to Gil',
+          'Receive intelligence from ORACLE — build daily reports',
+          'Send morning briefing to Gil (9:30 AM ET)',
+          'Send end-of-day summary to Gil (4:00 PM ET)',
+          'Escalate any agent crash immediately via Telegram'
+        ],
+        rules: [
+          'NEVER reports a problem without an immediate recommendation',
+          'ALWAYS escalates agent crashes to Gil — no suppression, no delay',
+          'NEVER makes trading decisions — that is APEX\u2019s domain',
+          'NEVER logs bot tokens, chat IDs, or secrets',
+          'Act first, then report — Gil is CEO, needs decisions not updates'
+        ],
+        history: [
+          { date: 'Apr 15', event: 'Morning briefing sent: 3 positions open, cash 76.2%, all agents healthy' },
+          { date: 'Apr 14', event: 'Escalated PULSE warning — RADAR missed 1 scan cycle (recovered)' },
+          { date: 'Apr 14', event: 'EOD summary sent — 2 trades, no rule violations, sentiment stable' },
+          { date: 'Apr 10', event: 'Updated website stats.json after APC trade execution' }
+        ],
+        stats: { primary: { k: 'Reports Sent', v: '—' }, secondary: { k: 'Escalations', v: '—' }, note: 'MIKE is the human-facing agent — all Gil-visible messages route through here.' }
+      },
+      pulse: {
+        name: 'PULSE', role: 'System Monitor', dept: 'ops', deptLabel: 'Operations',
+        model: 'Claude Sonnet', modelClass: 'sonnet', accent: '#ea580c', bg: '#fff7ed',
+        avatar: 'avatars/pulse.png',
+        tagline: 'Vigilant and reliable — the system\u2019s pulse, always watching. Factual, calm under pressure, escalates without panic.',
+        reports: 'Reports to MIKE',
+        manages: '—',
+        responsibilities: [
+          'Check agent health every 15 minutes',
+          'Detect crashed or errored agents automatically',
+          'Auto-restart failed agents up to 3 times — then escalate',
+          'Send hourly health reports to MIKE',
+          'Write heartbeat file for external uptime verification'
+        ],
+        rules: [
+          'Sends messages ONLY to MIKE',
+          'DETERMINISTIC — no Claude API calls, pure monitoring logic',
+          'NEVER modifies agent behavior — only observes and restarts',
+          'Max 3 restart attempts before escalating to MIKE',
+          'Writes heartbeat file on every check cycle'
+        ],
+        history: [
+          { date: 'Apr 15', event: 'Hourly health report: all 8 agents running, 0 incidents' },
+          { date: 'Apr 14', event: 'RADAR error detected — auto-restart succeeded on attempt 1' },
+          { date: 'Apr 14', event: 'Heartbeat written: 96/96 cycles on schedule' },
+          { date: 'Apr 10', event: 'Message volume report: BROKER 18, APEX 22, ORACLE 14' }
+        ],
+        stats: { primary: { k: 'Uptime', v: '99.8%' }, secondary: { k: 'Auto-Restarts', v: '—' }, note: 'PULSE runs on a 15-min schedule with a 3-strike restart policy.' }
+      },
+      nova: {
+        name: 'NOVA', role: 'Marketing (Planned v2)', dept: 'ops', deptLabel: 'Operations',
+        model: 'Claude Sonnet', modelClass: 'sonnet', accent: '#ea580c', bg: '#fff7ed',
+        avatar: 'avatars/nova.png',
+        tagline: 'Creative and articulate — the company\u2019s public voice. Currently a placeholder; full capabilities ship in v2.',
+        reports: 'Reports to MIKE',
+        manages: '—',
+        responsibilities: [
+          'Generate market commentary based on ORACLE briefings (v2)',
+          'Create social media posts about trading insights (v2)',
+          'Produce weekly performance reports (v2)',
+          'Build investor update content (v2)',
+          'Currently: acknowledges messages and reports to MIKE'
+        ],
+        rules: [
+          'Sends messages ONLY to MIKE',
+          'Does not make trading decisions or access portfolio data',
+          'All content must be accurate and well-sourced',
+          'Maintains consistent company voice across all channels',
+          'Currently inactive — content pipeline lands in Phase 24+'
+        ],
+        history: [
+          { date: '—', event: 'NOVA is a planned agent. Full capabilities ship in v2.' },
+          { date: '—', event: 'Weekly report generator — queued for Phase 24' },
+          { date: '—', event: 'Social content generation — design doc in progress' }
+        ],
+        stats: { primary: { k: 'Status', v: 'v2 Planned' }, secondary: { k: 'Posts Generated', v: '—' }, note: 'NOVA is scaffolded but not yet active — this is what it will do in v2.' }
+      }
+    };
+
+    const DEPT_ORDER = {
+      intel: ['oracle', 'radar', 'quant'],
+      trading: ['apex', 'shield', 'broker'],
+      ops: ['mike', 'pulse', 'nova']
+    };
+
+    /* ══════════════════════════════════════════════════════════
+       Wire Agent Clicks (org-tree nodes with [data-agent])
+       ══════════════════════════════════════════════════════════ */
+    function wireAgentClicks() {
+      document.querySelectorAll('[data-agent]').forEach(el => {
+        el.addEventListener('click', () => openModal(el.dataset.agent));
+      });
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       Modal
+       ══════════════════════════════════════════════════════════ */
+    const backdrop = document.getElementById('modal-backdrop');
+    const modal = backdrop.querySelector('.modal');
+    let liveStats = null;
+
+    function openModal(agentId) {
+      const a = AGENTS[agentId];
+      if (!a) return;
+
+      document.getElementById('modal-avatar').src = a.avatar;
+      document.getElementById('modal-avatar').alt = a.name;
+      document.getElementById('modal-name').textContent = a.name;
+      document.getElementById('modal-role').textContent = a.role;
+      document.getElementById('modal-tagline').textContent = a.tagline;
+
+      document.getElementById('modal-meta').innerHTML =
+        '<span class="modal-badge dept-' + a.dept + '">' + a.deptLabel + '</span>'
+        + '<span class="modal-badge ' + a.modelClass + '">' + a.model + '</span>';
+
+      document.getElementById('modal-header').style.setProperty('--agent-bg', a.bg);
+      modal.style.setProperty('--agent-accent', a.accent);
+
+      // Tab 1: Overview
+      document.getElementById('tab-overview').innerHTML =
+        '<div class="overview-grid">'
+          + '<div class="overview-item"><div class="k">Department</div><div class="v">' + a.deptLabel + '</div></div>'
+          + '<div class="overview-item"><div class="k">Model</div><div class="v">' + a.model + '</div></div>'
+          + '<div class="overview-item"><div class="k">Reports</div><div class="v">' + a.reports + '</div></div>'
+          + '<div class="overview-item"><div class="k">Manages</div><div class="v">' + a.manages + '</div></div>'
+        + '</div>'
+        + '<h4>Responsibilities</h4>'
+        + '<ul class="tab-list">' + a.responsibilities.map(r => '<li>' + r + '</li>').join('') + '</ul>';
+
+      // Tab 2: Rules
+      document.getElementById('tab-rules').innerHTML =
+        '<h4>Operating Rules</h4>'
+        + '<ul class="tab-list rules">' + a.rules.map(r => '<li>' + r + '</li>').join('') + '</ul>';
+
+      // Tab 3: History
+      document.getElementById('tab-history').innerHTML =
+        '<h4>Recent Activity</h4>'
+        + a.history.map(h => '<div class="history-item"><div class="history-date">' + h.date + '</div><div class="history-event">' + h.event + '</div></div>').join('')
+        + '<div class="history-note">📌 History entries shown here are representative samples. Live activity feed lands in a future iteration.</div>';
+
+      // Tab 4: Stats
+      renderAgentStats(a);
+
+      // Reset to overview tab
+      document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'overview'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.id === 'tab-overview'));
+      document.getElementById('modal-body').scrollTop = 0;
+
+      backdrop.classList.add('open');
+      backdrop.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function renderAgentStats(a) {
+      const fmt$ = c => '$' + Math.abs(c / 100).toLocaleString('en-US', { maximumFractionDigits: 0 });
+      const resolve = (spec) => {
+        if (!spec.live || !liveStats) return spec.v;
+        if (spec.live === 'tradesExecuted') return String(liveStats.tradesExecuted);
+        if (spec.live === 'openPositions') return String(liveStats.openPositions);
+        if (spec.live === 'totalPnl') {
+          if (liveStats.totalPnlCents === null) return 'Pending';
+          const sign = liveStats.totalPnlCents >= 0 ? '+' : '-';
+          return sign + fmt$(liveStats.totalPnlCents);
+        }
+        return spec.v;
+      };
+      const primary = resolve(a.stats.primary);
+      const secondary = resolve(a.stats.secondary);
+
+      document.getElementById('tab-stats').innerHTML =
+        '<h4>Performance Metrics</h4>'
+        + '<div class="stats-grid">'
+          + '<div class="stat-block"><div class="k">' + a.stats.primary.k + '</div><div class="val">' + primary + '</div></div>'
+          + '<div class="stat-block"><div class="k">' + a.stats.secondary.k + '</div><div class="val">' + secondary + '</div></div>'
+        + '</div>'
+        + '<p class="history-note" style="background:#f0f9ff;border-color:#bae6fd;color:#075985;">ℹ️ ' + a.stats.note + '</p>';
+    }
+
+    function closeModal() {
+      backdrop.classList.remove('open');
+      backdrop.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && backdrop.classList.contains('open')) closeModal(); });
+
+    document.querySelectorAll('.modal-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t === tab));
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.id === 'tab-' + target));
+      });
+    });
+
+    /* ══════════════════════════════════════════════════════════
+       Trade Flow Animation
+       ══════════════════════════════════════════════════════════ */
+    const flowNodes = ['radar', 'oracle', 'apex', 'shield', 'broker'];
+    const flowMsgs = [
       'RADAR detects AAPL touching the 150-day SMA with rising volume...',
-      'ORACLE analyzes the signal — RSI at 45, SMA alignment bullish, Stocktwits 68% bullish...',
-      'APEX reviews past AAPL lessons and decides: BUY 30 shares at $180.50...',
-      'SHIELD runs risk assessment — stop-loss set, cash reserve OK, risk score: 32/100. APPROVED.',
-      'BROKER validates 7 checks and executes: BUY 30 AAPL @ $180.50. Trade logged.'
+      'ORACLE analyzes: RSI 45, SMA alignment bullish, Stocktwits 68% bullish...',
+      'APEX reviews past AAPL lessons and decides: BUY 44 shares at $182.22...',
+      'SHIELD runs risk checks — stop set, cash reserve OK, risk 28/100. APPROVED.',
+      'BROKER validates 7 checks and executes: BUY 44 AAPL @ $182.22. Trade logged.'
     ];
-    var running = false;
+    let flowRunning = false;
 
     function resetFlow() {
-      nodes.forEach(function(n) {
-        var el = document.getElementById('fn-' + n);
+      flowNodes.forEach(n => {
+        const el = document.getElementById('fn-' + n);
         el.classList.remove('active', 'done');
         el.parentElement.querySelector('.flow-label').classList.remove('active');
       });
-      arrows.forEach(function(i) {
-        document.getElementById('fa-' + i).classList.remove('active');
-      });
-      var msg = document.getElementById('flow-msg');
-      msg.classList.remove('visible');
-      msg.textContent = 'Press play to watch a trade flow through the system.';
-      msg.classList.add('visible');
+      [0, 1, 2, 3].forEach(i => document.getElementById('fa-' + i).classList.remove('active'));
     }
 
     function startFlow() {
-      if (running) return;
-      running = true;
-      var btn = document.getElementById('flow-btn');
-      btn.textContent = 'Running...';
-      btn.style.pointerEvents = 'none';
+      if (flowRunning) return;
+      flowRunning = true;
       resetFlow();
-      var msg = document.getElementById('flow-msg');
-      msg.classList.remove('visible');
+      const msg = document.getElementById('flow-msg');
 
-      var step = 0;
-      function nextStep() {
+      let step = 0;
+      function next() {
         if (step > 0) {
-          var prev = document.getElementById('fn-' + nodes[step - 1]);
-          prev.classList.remove('active');
-          prev.classList.add('done');
-        }
-        if (step > 0) {
+          document.getElementById('fn-' + flowNodes[step - 1]).classList.remove('active');
+          document.getElementById('fn-' + flowNodes[step - 1]).classList.add('done');
           document.getElementById('fa-' + (step - 1)).classList.add('active');
         }
-        if (step < nodes.length) {
-          var node = document.getElementById('fn-' + nodes[step]);
+        if (step < flowNodes.length) {
+          const node = document.getElementById('fn-' + flowNodes[step]);
           node.classList.add('active');
           node.parentElement.querySelector('.flow-label').classList.add('active');
           msg.classList.remove('visible');
-          setTimeout(function() {
-            msg.textContent = messages[step];
+          const currentStep = step;
+          step++;
+          setTimeout(() => {
+            msg.textContent = flowMsgs[currentStep];
             msg.classList.add('visible');
           }, 100);
-          step++;
-          setTimeout(nextStep, 2200);
+          setTimeout(next, 5000);
         } else {
-          btn.textContent = '↻ Replay';
-          btn.style.pointerEvents = 'auto';
-          running = false;
+          setTimeout(() => {
+            resetFlow();
+            msg.classList.remove('visible');
+            step = 0;
+            setTimeout(next, 800);
+          }, 2000);
         }
       }
-      setTimeout(nextStep, 400);
+      setTimeout(next, 400);
     }
 
-    // Auto-play when the flow section scrolls into view
-    var observer = new IntersectionObserver(function(entries) {
-      if (entries[0].isIntersecting) {
-        setTimeout(startFlow, 600);
-        observer.disconnect();
-      }
-    }, { threshold: 0.5 });
-    observer.observe(document.querySelector('.flow-section'));
-  </script>
+    // Auto-play flow when scrolled into view (once)
+    const flowSection = document.querySelector('.flow-wrapper');
+    if (flowSection) {
+      const flowObserver = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) { setTimeout(startFlow, 500); flowObserver.disconnect(); }
+      }, { threshold: 0.4 });
+      flowObserver.observe(flowSection);
+    }
 
+    /* ══════════════════════════════════════════════════════════
+       Live Performance — stats.json
+       ══════════════════════════════════════════════════════════ */
+    const fmt$ = c => '$' + Math.abs(c / 100).toLocaleString('en-US', { maximumFractionDigits: 0 });
+
+    function renderPerformance(s) {
+      const grid = document.getElementById('perf-grid');
+      if (!s) {
+        grid.innerHTML = '<div class="perf-card"><div class="perf-label">Offline</div><div class="perf-num" style="color:#94a3b8">—</div><div class="perf-sub">stats.json unavailable</div></div>';
+        return;
+      }
+      // Card 1: Total P&L (or cash deployed if no closed trades)
+      let c1;
+      if (s.totalPnlCents !== null) {
+        const sign = s.totalPnlCents >= 0 ? '+' : '-';
+        const pct = Math.abs((s.totalPnlCents / s.startingCapitalCents) * 100).toFixed(1);
+        const cls = s.totalPnlCents >= 0 ? 'positive' : 'negative';
+        c1 = '<div class="perf-label">Total P&amp;L</div>'
+           + '<div class="perf-num ' + cls + '">' + sign + fmt$(s.totalPnlCents) + '</div>'
+           + '<div class="perf-sub ' + cls + '">' + sign + pct + '% return</div>';
+      } else {
+        const deployed = s.startingCapitalCents - s.cashCents;
+        c1 = '<div class="perf-label">Capital Deployed</div>'
+           + '<div class="perf-num">' + fmt$(deployed) + '</div>'
+           + '<div class="perf-sub">' + ((deployed/s.startingCapitalCents)*100).toFixed(1) + '% of portfolio</div>';
+      }
+      // Card 2: Win Rate or Open Positions
+      let c2;
+      if (s.winRate !== null) {
+        c2 = '<div class="perf-label">Win Rate</div>'
+           + '<div class="perf-num">' + s.winRate + '%</div>'
+           + '<div class="perf-sub">' + s.wins + 'W · ' + s.losses + 'L</div>';
+      } else {
+        const tickers = (s.openTickers || []).join(' · ') || '—';
+        c2 = '<div class="perf-label">Open Positions</div>'
+           + '<div class="perf-num">' + s.openPositions + '</div>'
+           + '<div class="perf-sub">' + tickers + '</div>';
+      }
+      // Card 3: Trades Executed
+      const c3 = '<div class="perf-label">Trades Executed</div>'
+        + '<div class="perf-num">' + s.tradesExecuted + '</div>'
+        + '<div class="perf-sub">' + s.closedTrades + ' closed · ' + s.openPositions + ' open</div>';
+      // Card 4: Cash Available
+      const c4 = '<div class="perf-label">Cash Available</div>'
+        + '<div class="perf-num">' + fmt$(s.cashCents) + '</div>'
+        + '<div class="perf-sub">of ' + fmt$(s.startingCapitalCents) + ' starting</div>';
+
+      grid.innerHTML = '<div class="perf-card">' + c1 + '</div>'
+        + '<div class="perf-card">' + c2 + '</div>'
+        + '<div class="perf-card">' + c3 + '</div>'
+        + '<div class="perf-card">' + c4 + '</div>';
+
+      // Hero trade count
+      document.getElementById('hero-trades').textContent = s.tradesExecuted;
+
+      // Updated timestamp
+      if (s.lastUpdated) {
+        const d = new Date(s.lastUpdated);
+        document.getElementById('perf-updated').textContent =
+          'Updated ' + d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       Init
+       ══════════════════════════════════════════════════════════ */
+    wireAgentClicks();
+
+    fetch('./stats.json')
+      .then(r => r.json())
+      .then(s => { liveStats = s; renderPerformance(s); })
+      .catch(() => renderPerformance(null));
+  </script>
 </body>
 </html>
