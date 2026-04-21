@@ -1,13 +1,13 @@
 {
-  "tradesExecuted": 3,
-  "openPositions": 3,
+  "tradesExecuted": 5,
+  "openPositions": 5,
   "closedTrades": 0,
   "wins": 0,
   "losses": 0,
   "winRate": null,
   "totalPnlCents": null,
-  "cashCents": 7624606,
+  "cashCents": 6045790,
   "startingCapitalCents": 10000000,
-  "openTickers": ["AKAM", "AAPL", "APC"],
-  "lastUpdated": "2026-04-15T12:36:20.736Z"
+  "openTickers": ["AKAM", "AAPL", "APC", "ANET", "BLD"],
+  "lastUpdated": "2026-04-21T18:00:00.000Z"
 }
