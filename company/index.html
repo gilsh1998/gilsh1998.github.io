@@ -1664,23 +1664,39 @@
       const canvas = document.getElementById('equityChart');
       if (!canvas || typeof Chart === 'undefined') return;
 
+      const startingCapital = ((stats && stats.startingCapitalCents) || 10000000) / 100;
+
       const pts = (history && history.length) ? history : [{
         date: new Date().toISOString().slice(0, 10),
-        portfolioValue: (stats && stats.startingCapitalCents) || 10000000
+        portfolioValue: (stats && stats.startingCapitalCents) || 10000000,
+        trades: []
       }];
 
       const labels = pts.map(h => {
-        const d = new Date(h.date);
+        const d = new Date(h.date + 'T12:00:00');
         return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
       });
       const values = pts.map(h => h.portfolioValue / 100);
-      const startingCapital = ((stats && stats.startingCapitalCents) || 10000000) / 100;
 
-      // If only one point, pad to make the line visible
-      if (values.length === 1) {
-        labels.unshift('Start');
-        values.unshift(startingCapital);
-      }
+      // Per-point styling: trade-entry days get orange diamonds, normal days get blue circles
+      const hasTrade = pts.map(h => h.trades && h.trades.length > 0);
+      const pointStyles  = hasTrade.map(t => t ? 'rectRot' : 'circle');
+      const pointRadii   = hasTrade.map(t => t ? 7 : 4);
+      const pointColors  = hasTrade.map(t => t ? '#ea580c' : '#2563eb');
+      const hoverRadii   = hasTrade.map(t => t ? 9 : 6);
+
+      // Build per-point tooltip trade lines
+      const tradeLines = pts.map(h => {
+        if (!h.trades || !h.trades.length) return null;
+        return h.trades.map(t =>
+          '▸ ' + t.ticker + ' — buy ' + t.shares + ' @ $' + (t.priceCents / 100).toFixed(2)
+        );
+      });
+
+      // Y-axis range: center on starting capital with ±10% breathing room
+      const allValues = [...values];
+      const yMin = Math.min(...allValues) * 0.97;
+      const yMax = Math.max(...allValues) * 1.03;
 
       new Chart(canvas.getContext('2d'), {
         type: 'line',
@@ -1688,21 +1704,23 @@
           labels,
           datasets: [
             {
-              label: 'Portfolio',
+              label: 'Portfolio value',
               data: values,
               borderColor: '#2563eb',
-              backgroundColor: 'rgba(37, 99, 235, 0.08)',
+              backgroundColor: 'rgba(37, 99, 235, 0.07)',
               borderWidth: 2.5,
               fill: true,
-              tension: 0.3,
-              pointRadius: 4,
-              pointBackgroundColor: '#2563eb',
+              tension: 0.2,
+              pointStyle: pointStyles,
+              pointRadius: pointRadii,
+              pointBackgroundColor: pointColors,
               pointBorderColor: '#fff',
               pointBorderWidth: 2,
-              pointHoverRadius: 6
+              pointHoverRadius: hoverRadii,
+              pointHoverBackgroundColor: pointColors
             },
             {
-              label: 'Starting capital',
+              label: 'Starting capital $100k',
               data: labels.map(() => startingCapital),
               borderColor: '#cbd5e1',
               borderWidth: 1.5,
@@ -1722,25 +1740,35 @@
               display: true, position: 'bottom',
               labels: {
                 boxWidth: 10, boxHeight: 10, padding: 14,
-                font: { size: 11, family: 'Inter, system-ui, sans-serif' },
-                color: '#64748b'
+                font: { size: 11 }, color: '#64748b',
+                filter: item => item.datasetIndex === 0 || item.datasetIndex === 1
               }
             },
             tooltip: {
-              backgroundColor: '#0f172a', titleColor: '#fff', bodyColor: '#e2e8f0',
-              borderColor: '#1e293b', borderWidth: 1, padding: 10,
+              backgroundColor: '#0f172a', titleColor: '#94a3b8', bodyColor: '#e2e8f0',
+              borderColor: '#1e293b', borderWidth: 1, padding: 12,
               callbacks: {
-                label: ctx => ctx.dataset.label + ': $' +
-                  ctx.parsed.y.toLocaleString('en-US', { maximumFractionDigits: 0 })
+                title: items => labels[items[0].dataIndex],
+                label: ctx => {
+                  if (ctx.datasetIndex === 1) return null;
+                  return 'Portfolio: $' + ctx.parsed.y.toLocaleString('en-US', { maximumFractionDigits: 0 });
+                },
+                afterBody: items => {
+                  const idx = items[0].dataIndex;
+                  const lines = tradeLines[idx];
+                  if (!lines) return null;
+                  return ['', '📈 Trades executed:'].concat(lines);
+                }
               }
             }
           },
           scales: {
             y: {
-              beginAtZero: false,
+              min: yMin,
+              max: yMax,
               ticks: {
                 callback: v => '$' + (v / 1000).toFixed(0) + 'k',
-                color: '#94a3b8', font: { size: 11 }
+                color: '#94a3b8', font: { size: 11 }, maxTicksLimit: 6
               },
               grid: { color: '#f1f5f9' },
               border: { display: false }

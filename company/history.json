@@ -1,10 +1,39 @@
 {
   "history": [
     {
-      "date": "2026-04-22",
+      "date": "2026-04-14",
+      "portfolioValue": 10000000,
+      "cash": 10000000,
+      "realizedPnl": 0,
+      "trades": []
+    },
+    {
+      "date": "2026-04-15",
       "portfolioValue": 10000000,
       "cash": 7624606,
-      "realizedPnl": 0
+      "realizedPnl": 0,
+      "trades": [
+        { "ticker": "AKAM", "side": "buy", "shares": 90, "priceCents": 8884 },
+        { "ticker": "AAPL", "side": "buy", "shares": 30, "priceCents": 25883 },
+        { "ticker": "APC",  "side": "buy", "shares": 427, "priceCents": 1872 }
+      ]
+    },
+    {
+      "date": "2026-04-20",
+      "portfolioValue": 10000000,
+      "cash": 6045790,
+      "realizedPnl": 0,
+      "trades": [
+        { "ticker": "ANET", "side": "buy", "shares": 48, "priceCents": 16666 },
+        { "ticker": "BLD",  "side": "buy", "shares": 16, "priceCents": 48678 }
+      ]
+    },
+    {
+      "date": "2026-04-22",
+      "portfolioValue": 10000000,
+      "cash": 6045790,
+      "realizedPnl": 0,
+      "trades": []
     }
   ]
 }
