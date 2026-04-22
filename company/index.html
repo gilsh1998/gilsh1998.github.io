@@ -694,7 +694,49 @@
       .tree-node.head { width: 120px; }
       .tree-sub { display: none; } /* keep mobile compact */
     }
+
+    /* ─── Performance Charts ───────────────────────────────────── */
+    .perf-charts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .chart-card {
+      background: #fff; border: 1px solid #e2e8f0; border-radius: 14px;
+      padding: 24px; transition: all .2s ease;
+    }
+    .chart-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 20px rgba(15,23,42,0.04);
+    }
+    .chart-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 18px; gap: 12px; flex-wrap: wrap;
+    }
+    .chart-head h3 {
+      font-size: 0.95rem; font-weight: 700; color: #0f172a;
+      letter-spacing: 0.2px;
+    }
+    .chart-sub {
+      font-size: 0.72rem; color: #94a3b8;
+      text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+    }
+    .chart-body {
+      position: relative; height: 280px;
+    }
+    .chart-empty {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: #94a3b8; font-size: 0.88rem; text-align: center;
+      padding: 20px; line-height: 1.5;
+    }
+    @media (max-width: 900px) {
+      .perf-charts { grid-template-columns: 1fr; }
+      .chart-body { height: 240px; }
+    }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
 </head>
 <body>
 
@@ -771,6 +813,29 @@
         <div class="perf-card">
           <div class="perf-label">Loading</div>
           <div class="perf-num" style="color:#cbd5e1;">—</div>
+        </div>
+      </div>
+      <div class="perf-charts">
+        <div class="chart-card">
+          <div class="chart-head">
+            <h3>Equity Curve</h3>
+            <span class="chart-sub">Portfolio value</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="equityChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-head">
+            <h3>Trade P&amp;L</h3>
+            <span class="chart-sub">Per closed trade</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="pnlChart"></canvas>
+            <div class="chart-empty" id="pnlEmpty" hidden>
+              No closed trades yet — chart will populate after first exit.
+            </div>
+          </div>
         </div>
       </div>
       <div class="perf-footer">
@@ -1593,14 +1658,189 @@
     }
 
     /* ══════════════════════════════════════════════════════════
+       Performance Charts — Chart.js
+       ══════════════════════════════════════════════════════════ */
+    function renderEquityChart(stats, history) {
+      const canvas = document.getElementById('equityChart');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      const pts = (history && history.length) ? history : [{
+        date: new Date().toISOString().slice(0, 10),
+        portfolioValue: (stats && stats.startingCapitalCents) || 10000000
+      }];
+
+      const labels = pts.map(h => {
+        const d = new Date(h.date);
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      });
+      const values = pts.map(h => h.portfolioValue / 100);
+      const startingCapital = ((stats && stats.startingCapitalCents) || 10000000) / 100;
+
+      // If only one point, pad to make the line visible
+      if (values.length === 1) {
+        labels.unshift('Start');
+        values.unshift(startingCapital);
+      }
+
+      new Chart(canvas.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Portfolio',
+              data: values,
+              borderColor: '#2563eb',
+              backgroundColor: 'rgba(37, 99, 235, 0.08)',
+              borderWidth: 2.5,
+              fill: true,
+              tension: 0.3,
+              pointRadius: 4,
+              pointBackgroundColor: '#2563eb',
+              pointBorderColor: '#fff',
+              pointBorderWidth: 2,
+              pointHoverRadius: 6
+            },
+            {
+              label: 'Starting capital',
+              data: labels.map(() => startingCapital),
+              borderColor: '#cbd5e1',
+              borderWidth: 1.5,
+              borderDash: [6, 6],
+              fill: false,
+              pointRadius: 0,
+              tension: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              display: true, position: 'bottom',
+              labels: {
+                boxWidth: 10, boxHeight: 10, padding: 14,
+                font: { size: 11, family: 'Inter, system-ui, sans-serif' },
+                color: '#64748b'
+              }
+            },
+            tooltip: {
+              backgroundColor: '#0f172a', titleColor: '#fff', bodyColor: '#e2e8f0',
+              borderColor: '#1e293b', borderWidth: 1, padding: 10,
+              callbacks: {
+                label: ctx => ctx.dataset.label + ': $' +
+                  ctx.parsed.y.toLocaleString('en-US', { maximumFractionDigits: 0 })
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: false,
+              ticks: {
+                callback: v => '$' + (v / 1000).toFixed(0) + 'k',
+                color: '#94a3b8', font: { size: 11 }
+              },
+              grid: { color: '#f1f5f9' },
+              border: { display: false }
+            },
+            x: {
+              ticks: { color: '#94a3b8', font: { size: 11 } },
+              grid: { display: false },
+              border: { color: '#e2e8f0' }
+            }
+          }
+        }
+      });
+    }
+
+    function renderPnlChart(stats, trades) {
+      const canvas = document.getElementById('pnlChart');
+      const empty = document.getElementById('pnlEmpty');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      const list = Array.isArray(trades) ? trades : [];
+      if (list.length === 0) {
+        canvas.style.display = 'none';
+        if (empty) empty.hidden = false;
+        return;
+      }
+
+      const labels = list.map(t => t.ticker);
+      const values = list.map(t => (t.pnlCents || 0) / 100);
+      const colors = values.map(v => v >= 0 ? '#16a34a' : '#dc2626');
+
+      new Chart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'P&L',
+            data: values,
+            backgroundColor: colors,
+            borderRadius: 6,
+            borderSkipped: false,
+            maxBarThickness: 48
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#0f172a', titleColor: '#fff', bodyColor: '#e2e8f0',
+              borderColor: '#1e293b', borderWidth: 1, padding: 10,
+              callbacks: {
+                label: ctx => {
+                  const v = ctx.parsed.y;
+                  return (v >= 0 ? '+$' : '-$') +
+                    Math.abs(v).toLocaleString('en-US', { maximumFractionDigits: 0 });
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              ticks: {
+                callback: v => (v >= 0 ? '+$' : '-$') + Math.abs(v).toLocaleString(),
+                color: '#94a3b8', font: { size: 11 }
+              },
+              grid: { color: '#f1f5f9' },
+              border: { display: false }
+            },
+            x: {
+              ticks: { color: '#64748b', font: { size: 11, weight: '600' } },
+              grid: { display: false },
+              border: { color: '#e2e8f0' }
+            }
+          }
+        }
+      });
+    }
+
+    /* ══════════════════════════════════════════════════════════
        Init
        ══════════════════════════════════════════════════════════ */
     wireAgentClicks();
 
-    fetch('./stats.json')
-      .then(r => r.json())
-      .then(s => { liveStats = s; renderPerformance(s); })
-      .catch(() => renderPerformance(null));
+    Promise.all([
+      fetch('./stats.json').then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('./history.json').then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('./trades.json').then(r => r.ok ? r.json() : null).catch(() => null)
+    ]).then(([stats, histData, tradesData]) => {
+      if (stats) {
+        liveStats = stats;
+        renderPerformance(stats);
+      } else {
+        renderPerformance(null);
+      }
+      const history = (histData && histData.history) || [];
+      const trades = (tradesData && tradesData.trades) || [];
+      renderEquityChart(stats, history);
+      renderPnlChart(stats, trades);
+    });
   </script>
 </body>
 </html>
